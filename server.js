@@ -1,15 +1,14 @@
-const path = require("path");
-const express = require("express");
-const compression = require("compression");
-
-const CONTEXT = `/${""}`;
-const PORT = 4000;
-
+const express = require('express');
+const path = require('path');
 const app = express();
 
-app.use(compression());
-app.use(CONTEXT, express.static(path.resolve(__dirname, "dist")));
-app.use("/", express.static(path.resolve(__dirname, "dist")));
-app.listen(PORT, () =>
-  console.log(`App running on http://localhost:${PORT}${CONTEXT}`)
-);
+// Serve static files....
+app.use(express.static(__dirname + '/dist'));
+
+// Send all requests to index.html
+app.get('/*', function(req, res) {
+    res.sendFile(path.join(__dirname + '/dist/index.html'));
+});
+
+// default Heroku PORT
+app.listen(process.env.PORT || 3000);
