@@ -1,0 +1,131 @@
+<mat-sidenav-container>
+    <mat-sidenav *ngIf="settings.menu == 'vertical'" [opened]="settings.sidenavIsOpened" [mode]="(settings.sidenavIsPinned) ? 'side' : 'over'" #sidenav class="sidenav mat-elevation-z6">
+        <app-sidenav></app-sidenav>
+    </mat-sidenav>
+    <mat-sidenav-content id="main" perfectScrollbar [disabled]="settings.fixedHeader" (psScrollY)="onPsScrollY($event)">
+        <mat-toolbar color="primary" class="flex-p-x">
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100">            
+                <div fxLayout="row" fxLayoutAlign="center center">                    
+                    <button *ngIf="settings.menu == 'vertical'" mat-icon-button (click)="toggleSidenav()">
+                        <mat-icon>menu</mat-icon>
+                    </button> 
+                    <button fxShow="false" fxShow.gt-xs *ngIf="settings.menu == 'vertical'" mat-icon-button (click)="settings.sidenavUserBlock = !settings.sidenavUserBlock">
+                        <mat-icon>person</mat-icon>
+                    </button> 
+                    <a *ngIf="settings.menu == 'horizontal'" mat-raised-button color="accent" routerLink="/" (click)="closeSubMenus()" class="small-logo"><fa-icon icon="futbol"></fa-icon></a>
+                    <a *ngIf="settings.menu == 'horizontal'" class="logo" routerLink="/" (click)="closeSubMenus()">PARIS SPORTIFS</a>
+                </div>            
+                <div fxLayout="row" fxLayoutAlign="end center">
+
+<!--
+                    BARRE NAVIGATION
+-->
+                    <!--   <div fxLayout="row" fxLayoutAlign="start center" fxShow="false" fxShow.gt-xs class="search-bar">
+                        <form method="get">
+                            <input type="text" placeholder="Type to search..." class="mat-elevation-z3"  [class.show]="toggleSearchBar">
+                            <button mat-icon-button (click)="toggleSearchBar = !toggleSearchBar" type="button">
+                                <mat-icon>search</mat-icon>
+                            </button> 
+                        </form>
+                    </div>   -->
+                    <!--<app-flags-menu fxShow="false" fxShow.gt-sm></app-flags-menu>-->
+                    <app-fullscreen matTooltip="Plein écran"></app-fullscreen>
+                    <!--<app-applications fxShow="false" fxShow.gt-sm></app-applications>-->
+                    <app-messages matTooltip="Notifications" fxShow="false" fxShow.gt-xs></app-messages>
+                    <button matTooltip="Paris enregistrés" mat-icon-button >
+                        <mat-icon>save</mat-icon>
+                    </button>
+                    <app-user-menu matTooltip="Utilisateur" (triggerOptions)="displayOptionsSidebar()"></app-user-menu>
+
+                </div>
+            </div>
+        </mat-toolbar>
+
+        <mat-toolbar id="horizontal-menu" color="primary" *ngIf="settings.menu == 'horizontal'" 
+            class="horizontal-menu flex-p-x transition-2"  
+            [class.fixed-top]="!settings.fixedHeader">
+            <div fxLayout="row" fxLayoutAlign="center center" class="w-100">            
+                <app-horizontal-menu [menuParentId]="0"></app-horizontal-menu>
+            </div>            
+        </mat-toolbar>
+
+        <div id="main-content" class="inner-sidenav-content transition-2" perfectScrollbar [disabled]="!settings.fixedHeader" (psScrollY)="onPsScrollY($event)"> 
+<!--
+            <app-breadcrumb></app-breadcrumb>
+-->
+            <router-outlet></router-outlet>
+        </div>
+
+        <div #backToTop fxLayout="row" fxLayoutAlign="center center" class="back-to-top" (click)="scrollToTop()">
+            <mat-icon>arrow_upward</mat-icon>
+        </div>
+
+    </mat-sidenav-content>
+    
+    <mat-sidenav #options position="end" class="options">        
+       
+        <div fxLayout="row" fxLayoutAlign="center center" class="control mat-elevation-z1">
+            <h2>Configuration</h2>
+        </div>  
+
+        <div perfectScrollbar>
+
+            <div fxLayout="column" class="control">
+                <h4>Affichage</h4>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <span>En-tête figé</span>
+                    <mat-slide-toggle [checked]="settings.fixedHeader" (change)="settings.fixedHeader = !settings.fixedHeader" labelPosition="before"></mat-slide-toggle>
+                </div>                
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <span>Inverser Gauche/Droite</span>
+                    <mat-slide-toggle [checked]="settings.rtl" (change)="settings.rtl = !settings.rtl" labelPosition="before"></mat-slide-toggle>
+                </div>
+            </div>
+
+            <div fxLayout="column" class="control">
+                <h4>Choix du menu</h4>
+                <mat-radio-group [(ngModel)]="menuOption" (change)="chooseMenu()">
+                    <mat-radio-button *ngFor="let menu of menus" [value]="menu">{{menu}}</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <div fxLayout="column" class="control">
+                <h4>Choix du type de menu</h4>
+                <mat-radio-group [(ngModel)]="menuTypeOption" (change)="chooseMenuType()">
+                    <mat-radio-button *ngFor="let menuType of menuTypes" [value]="menuType">{{menuType}}</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <div fxLayout="column" class="control">
+                <h4>Choix du thème</h4>
+                <div fxLayout="row" fxLayoutAlign="space-around center"> 
+                    <div class="skin-primary indigo-light" (click)="changeTheme('indigo-light')"><div class="skin-secondary"></div></div>  
+                    <div class="skin-primary teal-light" (click)="changeTheme('teal-light')"><div class="skin-secondary"></div></div>  
+                    <div class="skin-primary red-light" (click)="changeTheme('red-light')"><div class="skin-secondary"></div></div>  
+                    <div class="skin-primary blue-dark" (click)="changeTheme('blue-dark')"><div class="skin-secondary"></div></div>  
+                    <div class="skin-primary green-dark" (click)="changeTheme('green-dark')"><div class="skin-secondary"></div></div>  
+                    <div class="skin-primary pink-dark" (click)="changeTheme('pink-dark')"><div class="skin-secondary"></div></div>  
+                </div>
+            </div>
+
+            <div fxLayout="column" class="control">
+                <h4>Barre de navigation</h4>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <span>Visible par default</span>
+                    <mat-slide-toggle [checked]="settings.sidenavIsOpened" (change)="settings.sidenavIsOpened = !settings.sidenavIsOpened" labelPosition="before"></mat-slide-toggle>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <span>Attachée</span>
+                    <mat-slide-toggle [checked]="settings.sidenavIsPinned" (change)="settings.sidenavIsPinned = !settings.sidenavIsPinned" labelPosition="before"></mat-slide-toggle>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <span>Afficher infos utilisateur</span>
+                    <mat-slide-toggle [checked]="settings.sidenavUserBlock" (change)="settings.sidenavUserBlock = !settings.sidenavUserBlock" labelPosition="before"></mat-slide-toggle>
+                </div>
+            </div>
+
+        </div>
+
+    </mat-sidenav>
+
+</mat-sidenav-container>

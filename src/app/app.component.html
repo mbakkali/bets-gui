@@ -1,0 +1,14 @@
+<div id="app" class="app" [dir]="(settings.rtl) ? 'rtl' : 'ltr'"
+            [ngClass]="settings.theme"
+            [class.fixed-header]="settings.fixedHeader"
+            [class.horizontal-menu]="settings.menu == 'horizontal'"
+            [class.compact]="settings.menuType == 'compact'"
+            [class.mini]="settings.menuType == 'mini'" >
+    <router-outlet></router-outlet>
+    <div id="app-spinner" [class.hide]="!settings.loadingSpinner">
+        <img alt="spinner-logo" src="../assets/logo-blue.png" style="width: 100px;height: 120px">
+        <mat-progress-bar style="width: 400px" color="primary" mode="indeterminate"></mat-progress-bar>
+        <h4>Chargement...</h4>
+    </div>
+
+</div>
