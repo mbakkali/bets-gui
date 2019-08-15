@@ -8,6 +8,8 @@ node_modules
 e2e_test.*
 node_modules
 tools/gulp-tasks/cldr/cldr-data/
+.DS_Store
+.idea
 
 # Include when developing application packages.
 pubspec.lock
