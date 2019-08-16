@@ -168,7 +168,7 @@ let Mails = [
     new Mail(
         9,
         'Vimeo',
-        'assets/img/users/default-user.jpg',
+        'assets/img/games/default-user.jpg',
         'vimeo@email.vimeo.com',
         'The year\'s best videos and milestones',
         '20.12.2016',

@@ -4,7 +4,7 @@ import { PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 import { AppSettings } from '../app.settings';
 import { Settings } from '../app.settings.model';
 import { MenuService } from '../theme/components/menu/menu.service';
-import {MatSidenav} from '@angular/material';
+import {DateAdapter, MatSidenav} from '@angular/material';
 
 @Component({
   selector: 'app-pages',
@@ -27,8 +27,9 @@ export class PagesComponent implements OnInit {
   public toggleSearchBar:boolean = false;
   private defaultMenu:string; // declared for return default menu when window resized
 
-  constructor(public appSettings:AppSettings, public router:Router, private menuService: MenuService){        
+  constructor(public appSettings:AppSettings, public router:Router, private menuService: MenuService){
     this.settings = this.appSettings.settings;
+
   }
   
   ngOnInit() {

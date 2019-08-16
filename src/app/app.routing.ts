@@ -12,9 +12,9 @@ export const routes: Routes = [
     { 
         path: '', 
         component: PagesComponent, children: [
-            { path: '', loadChildren: () => import('./pages/users/users.module').then(m => m.UsersModule), data: { breadcrumb: 'Users' } },
+            { path: '', loadChildren: () => import('./pages/games/games.module').then(m => m.GamesModule), data: { breadcrumb: 'Users' } },
             { path: 'stats', loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule), data: { breadcrumb: 'Dashboard' } },
-            { path: 'users', loadChildren: () => import('./pages/users/users.module').then(m => m.UsersModule), data: { breadcrumb: 'Users' } },
+            { path: 'games', loadChildren: () => import('./pages/games/games.module').then(m => m.GamesModule), data: { breadcrumb: 'Users' } },
             { path: 'ui', loadChildren: () => import('./pages/ui/ui.module').then(m => m.UiModule), data: { breadcrumb: 'UI' } },
             { path: 'form-controls', loadChildren: () => import('./pages/form-controls/form-controls.module').then(m => m.FormControlsModule), data: { breadcrumb: 'Form Controls' } },
             { path: 'tables', loadChildren: () => import('./pages/tables/tables.module').then(m => m.TablesModule), data: { breadcrumb: 'Tables' } },

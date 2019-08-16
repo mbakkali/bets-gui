@@ -120,7 +120,7 @@ let talks = [
         false
     ),
     new Chat(
-        'assets/img/users/user.jpg',
+        'assets/img/games/user.jpg',
         'Emilio Verdines', 
         'Online',
         'Hi, Gradus is a fully compatible with angular material 2, responsive, organized folder structure, clean & customizable code, easy to use and much more...',

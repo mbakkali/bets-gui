@@ -1,0 +1,29 @@
+.user-form{
+    .form-field-outer{
+        width: 500px;
+    }
+    .mat-radio-button{
+        margin-right: 12px;
+    }
+}
+
+
+.tri-form {
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    grid-template-rows: 2fr;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+    justify-items: stretch;
+    align-items: stretch;
+}
+
+.bi-form {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    grid-template-rows: 2fr;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+    justify-items: stretch;
+    align-items: stretch;
+}

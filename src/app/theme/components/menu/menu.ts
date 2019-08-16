@@ -2,7 +2,7 @@ import { Menu } from './menu.model';
 
 export const verticalMenuItems = [ 
     new Menu (1, 'Statistiques', '/stats', null, 'dashboard', null, false, 0),
-    new Menu (2, 'Matchs', '/users', null, 'event', null, false, 0),
+    new Menu (2, 'Matchs', '/games', null, 'event', null, false, 0),
     new Menu (2, 'Mes paris', '/cart', null, 'save', null, false, 0)
 
     /*new Menu (3, 'UI Features', null, null, 'computer', null, true, 0),
@@ -46,7 +46,7 @@ export const verticalMenuItems = [
     new Menu (48, 'Landing', '/landing', null, 'filter', null, false, 40),
     new Menu (49, 'Profile', null, null, 'person', null, true, 40),
     new Menu (50, 'Projects', '/profile/projects', null, 'note', null, false, 49),    
-    new Menu (51, 'User Info', '/profile/user-info', null, 'perm_contact_calendar', null, false, 49),
+    new Menu (51, 'Game Info', '/profile/user-info', null, 'perm_contact_calendar', null, false, 49),
     new Menu (55, 'Schedule', '/schedule', null, 'event', null, false, 0),
     new Menu (66, 'Maps', null, null, 'map', null, true, 0),
     new Menu (67, 'Google Maps', '/maps/googlemaps', null, 'location_on', null, false, 66),
@@ -69,7 +69,7 @@ export const verticalMenuItems = [
 
 export const horizontalMenuItems = [ 
     new Menu (1, 'Statistiques', '/stats', null, 'dashboard', null, false, 0),
-    new Menu (2, 'Matchs', '/users', null, 'event', null, false, 0),
+    new Menu (2, 'Matchs', '/games', null, 'event', null, false, 0),
     new Menu (2, 'Mes paris', '/cart', null, 'save', null, false, 0)
    /* new Menu (3, 'UI Features', null, null, 'computer', null, true, 0),
     new Menu (4, 'Buttons', '/ui/buttons', null, 'keyboard', null, false, 3),  
@@ -121,7 +121,7 @@ export const horizontalMenuItems = [
     new Menu (48, 'Landing', '/landing', null, 'filter', null, false, 40),
     new Menu (49, 'Profile', null, null, 'person', null, true, 40),
     new Menu (50, 'Projects', '/profile/projects', null, 'note', null, false, 49),    
-    new Menu (51, 'User Info', '/profile/user-info', null, 'perm_contact_calendar', null, false, 49),
+    new Menu (51, 'Game Info', '/profile/user-info', null, 'perm_contact_calendar', null, false, 49),
     new Menu (55, 'Schedule', '/schedule', null, 'event', null, false, 40),
     new Menu (200, 'External Link', null, 'http://themeseason.com', 'open_in_new', '_blank', false, 40)*/
 ];

@@ -1,0 +1,121 @@
+<h1 mat-dialog-title><span *ngIf="game == null">Ajouter</span><span *ngIf="game != null && game.id">Modifier</span> un match</h1>
+<div mat-dialog-content>
+    <form [formGroup]="gameForm" class="user-form" #userFormRef="ngForm"
+          (ngSubmit)="onSubmit(userFormRef)">
+                <div fxLayout="column" class="form-field-outer">
+
+                    <p style="color: #888888">Equipes</p>
+                    <mat-divider></mat-divider>
+                    <br>
+
+                    <mat-form-field class="w-100" appearance="outline">
+                        <mat-label><mat-icon>people_outline</mat-icon>Equipe A</mat-label>
+                        <input autocomplete="off" matInput formControlName="teamA" list="teamsA" required>
+                        <datalist id="teamsA">
+                            <option *ngFor="let team of options" [value]="team.name">{{
+                                team.name
+                                }}</option>
+                        </datalist>
+                        <mat-error *ngIf="gameForm.controls.teamA.errors?.required">Equipe manquante</mat-error>
+                        <mat-error *ngIf="gameForm.controls.teamA.hasError('minlength')">Nom trop long</mat-error>
+                    </mat-form-field>
+                    <mat-form-field  appearance="outline" class="w-100">
+                        <mat-label><mat-icon>people</mat-icon> Equipe B</mat-label>
+                        <input autocomplete="off" matInput formControlName="teamB" list="teamsB" required>
+                        <datalist id="teamsB">
+                            <option *ngFor="let team of options" [value]="team.name">{{
+                                team.name
+                                }}</option>
+                        </datalist>
+                        <mat-error *ngIf="gameForm.controls.teamB.errors?.required">Equipe manquante</mat-error>
+                        <mat-error *ngIf="gameForm.controls.teamB.hasError('minlength')">Nom trop long</mat-error>
+                    </mat-form-field>
+
+                    <p style="color: #888888">Côtes</p>
+                    <mat-divider></mat-divider>
+                    <br>
+
+                    <div class="tri-form">
+
+                    <mat-form-field appearance="outline" class="w-100" style="margin-left: 5px;">
+                            <mat-label><mat-icon>show_chart</mat-icon>Côte A</mat-label>
+                                <mat-placeholder><mat-icon>bar_chart</mat-icon>Côte A</mat-placeholder>
+                                <input autocomplete="off" type="number" matInput formControlName="oddA" required>
+                                <mat-error *ngIf="gameForm.controls.oddA.errors?.required">Côte manquante</mat-error>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-100" style="margin-left: 5px;">
+                                <mat-label><mat-icon>show_chart</mat-icon>Côte B</mat-label>
+                                <input autocomplete="off" type="number" matInput formControlName="oddB" required>
+                                <mat-error *ngIf="gameForm.controls.oddB.errors?.required">Côte manquante</mat-error>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-100" style="margin-left: 5px;margin-right: 5px">
+                                <mat-label><mat-icon>show_chart</mat-icon>Côte match nul</mat-label>
+                                <input autocomplete="off" type="number" matInput formControlName="oddN">
+                            </mat-form-field>
+                    </div>
+                    <p style="color: #888888">Date & heure</p>
+                    <mat-divider></mat-divider>
+                    <br>
+
+
+                    <div class="bi-form">
+
+                    <mat-form-field appearance="outline">
+
+                  <!--      <label>Date Time(via reactive form):</label>
+                        <input [formControl]="selectedMoment2"
+                               [owlDateTimeTrigger]="dtPicker2" [owlDateTime]="dtPicker2">
+                        <owl-date-time #dtPicker2></owl-date-time>-->
+
+                        <input autocomplete="off"
+                                matInput
+                                [(ngModel)]="date"
+                                formControlName="date"
+                                [matDatepicker]="picker"
+                                [min]="minDate"
+                                placeholder="Saisir une date"
+                        />
+                        <mat-error *ngIf="gameForm.get('date').hasError('minlength')">
+                            Nom trop court
+                        </mat-error>
+                        <mat-error *ngIf="gameForm.get('date').hasError('required')">
+                            Champ requis
+                        </mat-error>
+                        <mat-datepicker-toggle
+                                matSuffix
+                                [for]="picker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label><mat-icon>access_time</mat-icon>Heure</mat-label>
+                        <input autocomplete="off"
+                                matInput
+                                [(ngModel)]="time"
+                                type="time"
+                                formControlName="time"
+                                placeholder="Choose a date"
+                        />
+                        <mat-error *ngIf="gameForm.get('time').hasError('minlength')">
+                            Nom trop court
+                        </mat-error>
+                        <mat-error *ngIf="gameForm.get('time').hasError('required')">
+                            Champ requis
+                        </mat-error>
+                    </mat-form-field>
+
+                    </div>
+
+
+
+
+                </div>
+    </form>
+</div>
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
+    <button *ngIf="game === null" mat-raised-button color="primary" [mat-dialog-close]="gameForm.value" [disabled]="!gameForm.valid" (click)="onSubmit(userFormRef)">Save</button>
+    <button *ngIf="game != null && game.id" mat-raised-button color="primary" [mat-dialog-close]="gameForm.value" [disabled]="!gameForm.valid" (click)="onSubmit(userFormRef)">Edit</button>
+
+    <button mat-raised-button color="warn" (click)="close()">Cancel</button>
+</div>

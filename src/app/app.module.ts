@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayContainer } from '@angular/cdk/overlay';
@@ -13,7 +13,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   wheelPropagation: true,
   suppressScrollX: true               
 };
-import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { CalendarModule } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { SharedModule } from './shared/shared.module';
 import { PipesModule } from './theme/pipes/pipes.module';
@@ -45,6 +45,23 @@ import {faSpinner} from '@fortawesome/free-solid-svg-icons/faSpinner';
 import {faClock} from '@fortawesome/free-solid-svg-icons/faClock';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { CartComponent } from './pages/cart/cart.component';
+import {faCalendarPlus} from '@fortawesome/free-solid-svg-icons/faCalendarPlus';
+import {OwlMomentDateTimeModule} from 'ng-pick-datetime-moment';
+import {OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, OwlDateTimeModule} from 'ng-pick-datetime';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material';
+import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
+import localeFr from '@angular/common/locales/fr';
+import {registerLocaleData} from '@angular/common';
+registerLocaleData(localeFr);
+export const MY_MOMENT_FORMATS = {
+    parseInput: 'l LT',
+    fullPickerInput: 'l LT',
+    datePickerInput: 'l',
+    timePickerInput: 'LT',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+};
 
 @NgModule({
   imports: [
@@ -63,7 +80,9 @@ import { CartComponent } from './pages/cart/cart.component';
     SharedModule,
     PipesModule,
     routing,
-    FontAwesomeModule
+    FontAwesomeModule,
+      OwlMomentDateTimeModule,
+      OwlDateTimeModule
   ],
   declarations: [
     AppComponent,
@@ -89,13 +108,25 @@ import { CartComponent } from './pages/cart/cart.component';
   providers: [ 
     AppSettings,
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
-    { provide: OverlayContainer, useClass: CustomOverlayContainer }
+    { provide: OverlayContainer, useClass: CustomOverlayContainer },
+      {provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_FORMATS},
+      {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
+
+      // `MomentDateAdapter` and `MAT_MOMENT_DATE_FORMATS` can be automatically provided by importing
+      // `MatMomentDateModule` in your applications root module. We provide it at the component level
+      // here, due to limitations of our example generation script.
+      {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+      {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+      { provide: LOCALE_ID, useValue: "fr-FR" }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(){
-    library.add(faCoffee);
+  constructor(private adapter : DateAdapter){
+
+    this.adapter.setLocale("fr")
+      library.add(faCoffee);
+    library.add(faCalendarPlus);
     library.add(faPlus);
     library.add(faChartArea);
     library.add(faChartPie);

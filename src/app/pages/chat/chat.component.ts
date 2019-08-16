@@ -13,7 +13,7 @@ import { ChatService } from './chat.service';
 export class ChatComponent implements OnInit {
   @ViewChild('sidenav', { static: true }) sidenav: any;
   public settings: Settings;
-  public userImage = 'assets/img/users/user.jpg';
+  public userImage = 'assets/img/games/user.jpg';
   public chats: Array<Chat>;
   public talks: Array<Chat>;
   public sidenavOpen:boolean = true;
@@ -58,7 +58,7 @@ export class ChatComponent implements OnInit {
       if(this.talks){ 
         this.talks.push(
             new Chat(
-              'assets/img/users/user.jpg', 
+              'assets/img/games/user.jpg',
               'Emilio Verdines', 
               'online', 
               this.newMessage,
