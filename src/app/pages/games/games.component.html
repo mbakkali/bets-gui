@@ -14,7 +14,7 @@
             <input autocomplete="off" matInput placeholder="Chercher par nom d'équipe" [(ngModel)]="searchText" name="search">
         </mat-form-field>
     </form>
-    <div fxLayout="row" fxLayoutAlign="space-between center">
+<!--    <div fxLayout="row" fxLayoutAlign="space-between center">
         <mat-button-toggle-group #viewType="matButtonToggleGroup" appearance="legacy">            
             <mat-button-toggle value="grid" checked="true">
                 <mat-icon>view_module</mat-icon>
@@ -23,10 +23,10 @@
                 <mat-icon>view_list</mat-icon>
             </mat-button-toggle>           
         </mat-button-toggle-group>
-    </div>
+    </div>-->
 </div>
 
-<div *ngIf="viewType.value == 'grid'" fxLayout="row wrap">    
+<div fxLayout="row wrap">
     <div *ngFor="let game of games | UserSearchPipe : searchText | paginate: { itemsPerPage: 6, currentPage: page }; let i=index" fxFlex="100" fxFlex.gt-md="33.3" fxFlex.md="50" class="flex-p">
         <mat-card class="p-0">
 

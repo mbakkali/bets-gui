@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: "http://ec2-34-218-226-215.us-west-2.compute.amazonaws.com:8081/"
+  url: "https://ec2-34-218-226-215.us-west-2.compute.amazonaws.com:8081/"
 };
 
 /*
