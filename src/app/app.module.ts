@@ -46,22 +46,11 @@ import {faClock} from '@fortawesome/free-solid-svg-icons/faClock';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { CartComponent } from './pages/cart/cart.component';
 import {faCalendarPlus} from '@fortawesome/free-solid-svg-icons/faCalendarPlus';
-import {OwlMomentDateTimeModule} from 'ng-pick-datetime-moment';
-import {OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, OwlDateTimeModule} from 'ng-pick-datetime';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import localeFr from '@angular/common/locales/fr';
 import {registerLocaleData} from '@angular/common';
 registerLocaleData(localeFr);
-export const MY_MOMENT_FORMATS = {
-    parseInput: 'l LT',
-    fullPickerInput: 'l LT',
-    datePickerInput: 'l',
-    timePickerInput: 'LT',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-};
 
 @NgModule({
   imports: [
@@ -80,9 +69,7 @@ export const MY_MOMENT_FORMATS = {
     SharedModule,
     PipesModule,
     routing,
-    FontAwesomeModule,
-      OwlMomentDateTimeModule,
-      OwlDateTimeModule
+    FontAwesomeModule
   ],
   declarations: [
     AppComponent,
@@ -109,7 +96,6 @@ export const MY_MOMENT_FORMATS = {
     AppSettings,
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
     { provide: OverlayContainer, useClass: CustomOverlayContainer },
-      {provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_FORMATS},
       {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
 
       // `MomentDateAdapter` and `MAT_MOMENT_DATE_FORMATS` can be automatically provided by importing
@@ -122,9 +108,9 @@ export const MY_MOMENT_FORMATS = {
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(private adapter : DateAdapter){
+  constructor(private adapter : DateAdapter<any>){
 
-    this.adapter.setLocale("fr")
+    this.adapter.setLocale("fr");
       library.add(faCoffee);
     library.add(faCalendarPlus);
     library.add(faPlus);
