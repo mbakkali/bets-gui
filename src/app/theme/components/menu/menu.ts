@@ -1,9 +1,9 @@
 import { Menu } from './menu.model';
 
 export const verticalMenuItems = [ 
-    new Menu (1, 'Statistiques', '/stats', null, 'dashboard', null, false, 0),
-    new Menu (2, 'Matchs', '/games', null, 'event', null, false, 0),
-    new Menu (2, 'Mes paris', '/cart', null, 'save', null, false, 0)
+    new Menu (1, 'Statistiques', '/stats', null, 'dashboard', null, false, 0,0),
+    new Menu (2, 'Matchs', '/games', null, 'event', null, false, 0,0),
+    new Menu (2, 'Mes paris', '/cart', null, 'save', null, false, 0,0)
 
     /*new Menu (3, 'UI Features', null, null, 'computer', null, true, 0),
     new Menu (4, 'Buttons', '/ui/buttons', null, 'keyboard', null, false, 3),  
@@ -68,9 +68,9 @@ export const verticalMenuItems = [
     ]
 
 export const horizontalMenuItems = [ 
-    new Menu (1, 'Statistiques', '/stats', null, 'dashboard', null, false, 0),
-    new Menu (2, 'Matchs', '/games', null, 'event', null, false, 0),
-    new Menu (2, 'Mes paris', '/cart', null, 'save', null, false, 0)
+    new Menu (1, 'Statistiques', '/stats', null, 'dashboard', null, false, 0,0),
+    new Menu (2, 'Matchs', '/games', null, 'event', null, false, 0,0),
+    new Menu (2, 'Mes paris', '/cart', null, 'save', null, false, 0,0)
    /* new Menu (3, 'UI Features', null, null, 'computer', null, true, 0),
     new Menu (4, 'Buttons', '/ui/buttons', null, 'keyboard', null, false, 3),  
     new Menu (5, 'Cards', '/ui/cards', null, 'card_membership', null, false, 3), 

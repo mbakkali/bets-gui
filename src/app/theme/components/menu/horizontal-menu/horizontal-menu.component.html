@@ -5,7 +5,8 @@
             [routerLink]="[menu.routerLink]" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"
             [matTooltip]="menu.title" matTooltipPosition="above" [matTooltipDisabled]="(settings.menuType=='mini') ? 'false' : 'true'"
             [id]="'horizontal-menu-item-'+menu.id">
-            <mat-icon class="horizontal-menu-icon">{{menu.icon}}</mat-icon>
+            <div *ngIf="menu.badgeCount == 0"><mat-icon class="horizontal-menu-icon">{{menu.icon}}</mat-icon></div>
+            <div *ngIf="menu.badgeCount > 0"><mat-icon [matBadge]="menu.badgeCount" matBadgePosition="after" matBadgeColor="warn" class="horizontal-menu-icon">{{menu.icon}}</mat-icon></div>
             <span class="horizontal-menu-title">{{menu.title}}</span>
         </a>
         <a *ngIf="menu.href && !menu.subMenu" mat-button 
@@ -13,14 +14,16 @@
             [attr.href]="menu.href || ''" [attr.target]="menu.target || ''"
             [matTooltip]="menu.title" matTooltipPosition="above" [matTooltipDisabled]="(settings.menuType=='mini') ? 'false' : 'true'"
             [id]="'horizontal-menu-item-'+menu.id">
-            <mat-icon class="horizontal-menu-icon">{{menu.icon}}</mat-icon>
+            <div *ngIf="menu.badgeCount == 0"><mat-icon class="horizontal-menu-icon">{{menu.icon}}</mat-icon></div>
+            <div *ngIf="menu.badgeCount > 0"><mat-icon [matBadge]="menu.badgeCount" matBadgePosition="after" matBadgeColor="warn" class="horizontal-menu-icon">{{menu.icon}}</mat-icon></div>
             <span class="horizontal-menu-title">{{menu.title}}</span>
         </a>
         <a *ngIf="menu.hasSubMenu" mat-button 
             fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
             [matTooltip]="menu.title" matTooltipPosition="above" [matTooltipDisabled]="(settings.menuType=='mini') ? 'false' : 'true'"
             [id]="'horizontal-menu-item-'+menu.id">
-            <mat-icon class="horizontal-menu-icon">{{menu.icon}}</mat-icon>
+            <div *ngIf="menu.badgeCount == 0"><mat-icon class="horizontal-menu-icon">{{menu.icon}}</mat-icon></div>
+            <div *ngIf="menu.badgeCount > 0"><mat-icon [matBadge]="menu.badgeCount" matBadgePosition="after" matBadgeColor="warn" class="horizontal-menu-icon">{{menu.icon}}</mat-icon></div>
             <span class="horizontal-menu-title">{{menu.title}}</span>
         </a>
 

@@ -44,12 +44,13 @@ import {faCircleNotch} from '@fortawesome/free-solid-svg-icons/faCircleNotch';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons/faSpinner';
 import {faClock} from '@fortawesome/free-solid-svg-icons/faClock';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import { CartComponent } from './pages/cart/cart.component';
+import { BetCartComponent } from './pages/bet-cart/bet-cart.component';
 import {faCalendarPlus} from '@fortawesome/free-solid-svg-icons/faCalendarPlus';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import localeFr from '@angular/common/locales/fr';
 import {registerLocaleData} from '@angular/common';
+import {BetsService} from './pages/bet-cart/bets.service';
 registerLocaleData(localeFr);
 
 @NgModule({
@@ -87,13 +88,13 @@ registerLocaleData(localeFr);
     ApplicationsComponent,
     MessagesComponent,
     UserMenuComponent,
-    CartComponent
+    BetCartComponent
   ],
   entryComponents:[
     VerticalMenuComponent
   ],
   providers: [ 
-    AppSettings,
+    AppSettings, BetsService,
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
     { provide: OverlayContainer, useClass: CustomOverlayContainer },
       {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},

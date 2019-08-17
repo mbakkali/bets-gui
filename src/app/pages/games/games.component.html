@@ -27,7 +27,7 @@
 </div>
 
 <div fxLayout="row wrap">
-    <div *ngFor="let game of games | UserSearchPipe : searchText | paginate: { itemsPerPage: 6, currentPage: page }; let i=index" fxFlex="100" fxFlex.gt-md="33.3" fxFlex.md="50" class="flex-p">
+    <div *ngFor="let game of games | UserSearchPipe : searchText | paginate: { itemsPerPage: 6, currentPage: page }; let i=index" fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50" class="flex-p">
         <mat-card class="p-0">
 
             <div class="bg-primary" fxLayout="row" fxLayoutAlign="space-between center">
@@ -41,11 +41,11 @@
                 <span (mouseleave)="menuTrigger.closeMenu()">
                     <button mat-menu-item (click)="openNewGameDialog(game)">
                         <mat-icon>mode_edit</mat-icon>
-                        <span>Edit</span>
+                        <span>Modifier</span>
                     </button>
                     <button mat-menu-item (click)="deleteUser(game);">
                         <mat-icon>delete</mat-icon>
-                        <span>Delete</span>
+                        <span>Supprimer</span>
                     </button>
                 </span>
             </mat-menu>
@@ -54,19 +54,19 @@
                     <p fxLayout="row" fxLayoutAlign="start center">
                         <span>{{game.teamA}}</span>
                     </p>
-                    <mat-slide-toggle>{{game.oddB | number: ".2-2"}}</mat-slide-toggle>
+                    <mat-slide-toggle color="warn" [checked]="toggleAChecked[i]" (change)="toggleAChecked[i] = $event.source.checked" (change)="onAChange($event)" [id]="game.id +'_' + i + '_A'">{{game.oddA | number: ".2-2"}}</mat-slide-toggle>
                 </div>
                 <div style="padding: 5px; margin: 20px; border-left: 2px solid grey;" fxFlex="30" fxLayout="column" class="user-details transition-2" [class.blocked]="isGameBlocked(game)">
                     <p fxLayout="row" fxLayoutAlign="start center">
                         <span>{{game.teamB}}</span>
                     </p>
-                    <mat-slide-toggle>{{game.oddA | number: ".2-2"}}</mat-slide-toggle>
+                    <mat-slide-toggle color="warn" [checked]="toggleBChecked[i]" (change)="toggleBChecked[i] = $event.source.checked" (change)="onBChange($event)" [id]="game.id +'_' + i + '_B'">{{game.oddB | number: ".2-2"}}</mat-slide-toggle>
                 </div>
                 <div *ngIf="game.oddN" style="padding: 5px; margin: 20px; border-left: 2px solid grey;" fxFlex="30" fxLayout="column" class="user-details transition-2" [class.blocked]="isGameBlocked(game)">
                     <p fxLayout="row" fxLayoutAlign="start center">
                         <span>Match nul</span>
                     </p>
-                    <mat-slide-toggle [disabled]="" [checked]="toggleNChecked[i]" (change)="toggleNChecked[i] = $event.source.checked" (change)="onChange($event)" [id]="game.id +'_' + i + 'N'">{{game.oddN | number: ".2-2"}}</mat-slide-toggle>
+                    <mat-slide-toggle color="warn" [checked]="toggleNChecked[i]" (change)="toggleNChecked[i] = $event.source.checked" (change)="onNChange($event)" [id]="game.id +'_' + i + '_N'">{{game.oddN | number: ".2-2"}}</mat-slide-toggle>
                 </div>
 
             </div>
@@ -169,9 +169,9 @@
 
 <div *ngIf="games" fxLayout="row wrap">
     <div fxFlex="100" class="flex-p"> 
-        <mat-card class="p-0 text-center">           
-            <pagination-controls class="gradus-pagination" autoHide="true" maxSize="3" (pageChange)="onPageChanged($event)"></pagination-controls>
-        </mat-card>
+        <div class="p-0 text-center">
+            <pagination-controls nextLabel="Suivant" previousLabel="Précédent" class="gradus-pagination" autoHide="true" maxSize="3" (pageChange)="onPageChanged($event)"></pagination-controls>
+        </div>
     </div>
 </div>
 
