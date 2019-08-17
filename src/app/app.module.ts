@@ -51,6 +51,7 @@ import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-mome
 import localeFr from '@angular/common/locales/fr';
 import {registerLocaleData} from '@angular/common';
 import {BetsService} from './pages/bet-cart/bets.service';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 registerLocaleData(localeFr);
 
 @NgModule({
@@ -70,7 +71,8 @@ registerLocaleData(localeFr);
     SharedModule,
     PipesModule,
     routing,
-    FontAwesomeModule
+    FontAwesomeModule,
+      HttpClientModule,
   ],
   declarations: [
     AppComponent,
@@ -94,7 +96,7 @@ registerLocaleData(localeFr);
     VerticalMenuComponent
   ],
   providers: [ 
-    AppSettings, BetsService,
+    AppSettings, BetsService, HttpClient,
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
     { provide: OverlayContainer, useClass: CustomOverlayContainer },
       {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
