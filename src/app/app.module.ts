@@ -52,6 +52,7 @@ import localeFr from '@angular/common/locales/fr';
 import {registerLocaleData} from '@angular/common';
 import {BetsService} from './pages/bet-cart/bets.service';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
+import { SimpleBetComponent } from './pages/bet-cart/simple-bet/simple-bet.component';
 registerLocaleData(localeFr);
 
 @NgModule({
@@ -90,7 +91,8 @@ registerLocaleData(localeFr);
     ApplicationsComponent,
     MessagesComponent,
     UserMenuComponent,
-    BetCartComponent
+    BetCartComponent,
+    SimpleBetComponent
   ],
   entryComponents:[
     VerticalMenuComponent

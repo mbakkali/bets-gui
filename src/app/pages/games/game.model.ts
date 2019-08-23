@@ -6,4 +6,5 @@ export interface Game {
   oddB: number;
   oddN: number;
   datetime: string;
+  checked?:boolean;
 }

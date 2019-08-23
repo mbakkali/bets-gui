@@ -1,37 +1,32 @@
 <div fxLayout="row" fxLayoutAlign="space-between center" class="flex-p">
     <div fxLayout="row">
-        <mat-button-toggle-group #controls="matButtonToggleGroup" appearance="legacy">            
+        <mat-button-toggle-group #controls="matButtonToggleGroup" appearance="legacy">
             <mat-button-toggle value="add" (click)="openNewGameDialog(null)">
                 <fa-icon style="font-size: 150%" icon="calendar-plus"></fa-icon>
             </mat-button-toggle>
             <mat-button-toggle value="search">
                 <mat-icon>search</mat-icon>
-            </mat-button-toggle>           
-        </mat-button-toggle-group>            
+            </mat-button-toggle>
+        </mat-button-toggle-group>
     </div>
     <form class="user-search" [class.show]="controls.value == 'search'">
         <mat-form-field appearance="outline" class="user-search-input">
-            <input autocomplete="off" matInput placeholder="Chercher par nom d'équipe" [(ngModel)]="searchText" name="search">
+            <input autocomplete="off" matInput placeholder="Chercher par nom d'équipe" [(ngModel)]="searchText"
+                   name="search">
         </mat-form-field>
     </form>
-<!--    <div fxLayout="row" fxLayoutAlign="space-between center">
-        <mat-button-toggle-group #viewType="matButtonToggleGroup" appearance="legacy">            
-            <mat-button-toggle value="grid" checked="true">
-                <mat-icon>view_module</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle value="list">
-                <mat-icon>view_list</mat-icon>
-            </mat-button-toggle>           
-        </mat-button-toggle-group>
-    </div>-->
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+                <mat-checkbox [(ngModel)]="showPassedGames">Afficher matchs terminés</mat-checkbox>
+        </div>
 </div>
 
 <div fxLayout="row wrap">
-    <div *ngFor="let game of games | UserSearchPipe : searchText | paginate: { itemsPerPage: 6, currentPage: page }; let i=index" fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50" class="flex-p">
+    <div *ngFor="let game of filteredGames() | UserSearchPipe : searchText; let i=index"
+         fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50" class="flex-p">
         <mat-card class="p-0">
 
             <div class="bg-primary" fxLayout="row" fxLayoutAlign="space-between center">
-                <img style="max-width: 50px" mat-card-avatar src="assets/football.png" />
+                <img style="max-width: 50px" mat-card-avatar src="assets/football.png"/>
                 <h3 class="user-name">{{game.teamA}} - {{game.teamB}}</h3>
                 <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger">
                     <mat-icon>more_vert</mat-icon>
@@ -50,32 +45,97 @@
                 </span>
             </mat-menu>
             <div fxLayout="row" fxLayoutAlign="space-around center">
-                <div style="padding: 5px; margin: 20px; border-left: 2px solid grey;" fxFlex="30" fxLayout="column" class="user-details transition-2" [class.blocked]="isGameBlocked(game)">
-                    <p fxLayout="row" fxLayoutAlign="start center">
-                        <span>{{game.teamA}}</span>
-                    </p>
-                    <mat-slide-toggle color="warn" [checked]="toggleAChecked[i]" (change)="toggleAChecked[i] = $event.source.checked" (change)="onAChange($event)" [id]="game.id +'_' + i + '_A'">{{game.oddA | number: ".2-2"}}</mat-slide-toggle>
+                <div style="padding: 5px; margin: 20px;" fxFlex="30" fxLayout="column" class="user-details transition-2"
+                     [class.blocked]="isGameBlocked(game)">
+                    <mat-button-toggle [disabled]="isGameBlocked(game) || isGameEnded(game)" *ngIf="!toggleAChecked[i]"
+                                       [checked]="toggleAChecked[i]"
+                                       (change)="toggleAChecked[i] = $event.source.checked" (change)="onAChange($event)"
+                                       [id]="game.id +'_' + i + '_A'">
+                        {{game.oddA | number: ".2-2"}}
+                        <mat-icon>arrow_right</mat-icon>
+                        <span style="font-weight: bold">{{game.teamA}}</span>
+                    </mat-button-toggle>
+
+                    <mat-button-toggle *ngIf="toggleAChecked[i]"
+                                       style="border: solid yellowgreen; background-color: white"
+                                       [checked]="toggleAChecked[i]"
+                                       (change)="toggleAChecked[i] = $event.source.checked" (change)="onAChange($event)"
+                                       [id]="game.id +'_' + i + '_A'">
+                        {{game.oddA | number: ".2-2"}}
+                        <mat-icon>arrow_right</mat-icon>
+                        <span style="font-weight: bold">{{game.teamA}}</span>
+                    </mat-button-toggle>
                 </div>
-                <div style="padding: 5px; margin: 20px; border-left: 2px solid grey;" fxFlex="30" fxLayout="column" class="user-details transition-2" [class.blocked]="isGameBlocked(game)">
-                    <p fxLayout="row" fxLayoutAlign="start center">
-                        <span>{{game.teamB}}</span>
-                    </p>
-                    <mat-slide-toggle color="warn" [checked]="toggleBChecked[i]" (change)="toggleBChecked[i] = $event.source.checked" (change)="onBChange($event)" [id]="game.id +'_' + i + '_B'">{{game.oddB | number: ".2-2"}}</mat-slide-toggle>
+
+
+                <div style="padding: 5px; margin: 5px;" fxFlex="30" fxLayout="column" class="user-details transition-2"
+                     [class.blocked]="isGameBlocked(game)">
+                    <mat-button-toggle [disabled]="isGameBlocked(game) || isGameEnded(game)" *ngIf="!toggleBChecked[i]"
+                                       [checked]="toggleBChecked[i]"
+                                       (change)="toggleBChecked[i] = $event.source.checked" (change)="onBChange($event)"
+                                       [id]="game.id +'_' + i + '_B'">
+                        {{game.oddB | number: ".2-2"}}
+                        <mat-icon>arrow_right</mat-icon>
+                        <span style="font-weight: bold">{{game.teamB}}</span>
+                    </mat-button-toggle>
+
+                    <mat-button-toggle *ngIf="toggleBChecked[i]"
+                                       style="border: solid yellowgreen; background-color: white"
+                                       [checked]="toggleBChecked[i]"
+                                       (change)="toggleBChecked[i] = $event.source.checked" (change)="onBChange($event)"
+                                       [id]="game.id +'_' + i + '_N'">
+                        {{game.oddB | number: ".2-2"}}
+                        <mat-icon>arrow_right</mat-icon>
+                        <span style="font-weight: bold">{{game.teamB}}</span>
+                    </mat-button-toggle>
                 </div>
-                <div *ngIf="game.oddN" style="padding: 5px; margin: 20px; border-left: 2px solid grey;" fxFlex="30" fxLayout="column" class="user-details transition-2" [class.blocked]="isGameBlocked(game)">
-                    <p fxLayout="row" fxLayoutAlign="start center">
-                        <span>Match nul</span>
-                    </p>
-                    <mat-slide-toggle color="warn" [checked]="toggleNChecked[i]" (change)="toggleNChecked[i] = $event.source.checked" (change)="onNChange($event)" [id]="game.id +'_' + i + '_N'">{{game.oddN | number: ".2-2"}}</mat-slide-toggle>
+
+
+                <div *ngIf="game.oddN" style="padding: 5px; margin: 5px;font-size: 120%" fxFlex="30" fxLayout="column"
+                     class="user-details transition-2" [class.blocked]="isGameBlocked(game)">
+
+                    <mat-button-toggle [disabled]="isGameBlocked(game) || isGameEnded(game)" *ngIf="!toggleNChecked[i]"
+                                       [checked]="toggleNChecked[i]"
+                                       (change)="toggleNChecked[i] = $event.source.checked" (change)="onNChange($event)"
+                                       [id]="game.id +'_' + i + '_N'">
+                        {{game.oddN | number: ".2-2"}}
+                        <mat-icon>arrow_right</mat-icon>
+                        <span style="font-weight: bold">Match nul</span>
+                    </mat-button-toggle>
+
+                    <mat-button-toggle *ngIf="toggleNChecked[i]"
+                                       style="border: solid yellowgreen; background-color: white"
+                                       [checked]="toggleNChecked[i]"
+                                       (change)="toggleNChecked[i] = $event.source.checked" (change)="onNChange($event)"
+                                       [id]="game.id +'_' + i + '_N'">
+                        {{game.oddN | number: ".2-2"}}
+                        <mat-icon>arrow_right</mat-icon>
+                        <span style="font-weight: bold">Match nul</span>
+                    </mat-button-toggle>
                 </div>
 
             </div>
 
-            <div fxLayout="row" fxLayoutAlign="space-around center" style="margin-bottom: 10px">
-                <p fxLayout="row" fxLayoutAlign="start center">
-                    <mat-icon class="muted-text">date_range</mat-icon>
-                    <span>{{game.datetime | date:"dd MMM 'à' HH:mm"}}</span>
-                </p>
+            <div fxLayout="row" fxLayoutAlign="space-around center" style="margin-bottom: 10px; text-align: center">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <div *ngIf="!isGameBlocked(game) && !isGameEnded(game)">
+                        <p>
+                            <mat-icon style="vertical-align: bottom;" class="muted-text">date_range</mat-icon>
+                            <span>{{game.datetime | date:"dd MMM 'à' HH:mm"}}</span></p>
+                    </div>
+
+                    <div *ngIf="isGameBlocked(game)">
+                        <mat-icon style="vertical-align: bottom;" class="muted-text">date_range</mat-icon>
+                        <span>{{game.datetime | date:"dd MMM 'à' HH:mm"}}</span>
+                        <br><span style="color: red">Le match commence bientôt, les paris ne sont plus acceptés</span>
+                    </div>
+
+                    <div *ngIf="isGameEnded(game)">
+                        <mat-icon style="vertical-align: bottom;" class="muted-text">date_range</mat-icon>
+                        <span>{{game.datetime | date:"dd MMM 'à' HH:mm"}}</span>
+                        <br><span style="color: green">Le match est terminé</span>
+                    </div>
+                </div>
             </div>
 
         </mat-card>
@@ -167,15 +227,16 @@
 </div>
 -->
 
-<div *ngIf="games" fxLayout="row wrap">
-    <div fxFlex="100" class="flex-p"> 
+<!--<div *ngIf="games" fxLayout="row wrap">
+    <div fxFlex="100" class="flex-p">
         <div class="p-0 text-center">
-            <pagination-controls nextLabel="Suivant" previousLabel="Précédent" class="gradus-pagination" autoHide="true" maxSize="3" (pageChange)="onPageChanged($event)"></pagination-controls>
+            <pagination-controls nextLabel="Suivant" previousLabel="Précédent" class="gradus-pagination" autoHide="true"
+                                 maxSize="3" (pageChange)="onPageChanged($event)"></pagination-controls>
         </div>
     </div>
-</div>
+</div>-->
 
-<div *ngIf="!games" fxLayout="column" fxLayoutAlign="center center" style="text-align: center" >
+<div *ngIf="!games" fxLayout="column" fxLayoutAlign="center center" style="text-align: center">
     <app-spinner [message]="'Chargement des matchs'"></app-spinner>
 </div>
 

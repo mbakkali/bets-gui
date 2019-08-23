@@ -1,0 +1,9 @@
+<mat-list>
+    <h3 mat-subheader>Folders</h3>
+    <mat-list-item *ngFor="let bet of getBets()">
+        <mat-icon mat-list-icon style="color: darkred; cursor: pointer" matRipple (click)="delete(bet)">delete</mat-icon>
+        <h4 mat-line>{{bet.teamA}} - {{bet.teamB}} </h4>
+        <p mat-line> {{bet.datetime | date}} </p>
+        <mat-divider></mat-divider>
+    </mat-list-item>
+</mat-list>

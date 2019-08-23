@@ -21,6 +21,7 @@ export class GamesComponent implements OnInit {
     public searchText: string;
     public page: any;
     public settings: Settings;
+    showPassedGames = false;
     toggleNChecked = [];
     toggleAChecked = [];
     toggleBChecked = [];
@@ -36,6 +37,16 @@ export class GamesComponent implements OnInit {
 
     ngOnInit() {
         this.getUsers();
+    }
+
+    public filteredGames(): Game[]{
+        if(this.games){
+            if(this.showPassedGames){
+                return this.games;
+            }else {
+                return this.games.filter(game => !this.isGameEnded(game))
+            }
+        }
     }
 
     public getUsers(): void {
@@ -100,7 +111,21 @@ export class GamesComponent implements OnInit {
     }
 
     isGameBlocked(game: Game) {
-        return false;
+        let timeToNow = new Date(game.datetime).getTime() - new Date().getTime()
+        if(timeToNow >= 0 && timeToNow < 5 * 60 * 1000){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    isGameEnded(game: Game) {
+        let timeToNow = new Date(game.datetime).getTime() - new Date().getTime()
+        if(timeToNow < 0){
+            return true;
+        }else {
+            return false;
+        }
     }
 
 
@@ -113,7 +138,7 @@ export class GamesComponent implements OnInit {
         if(this.toggleAChecked[pos] == true) {
             if (this.toggleBChecked[pos] == true) {
                 this.toggleBChecked[pos] = false;
-                this.notifications.open("Pari sur " + currentGame.teamA + " ("+currentGame.oddA +") modifiée",null,{duration: 2000,});
+                this.notifications.open("Pari sur " + currentGame.teamA + " ("+currentGame.oddA +") modifié",null,{duration: 2000,});
             } else if (this.toggleNChecked[pos] != undefined && this.toggleNChecked[pos] == true) {
                 this.toggleNChecked[pos] = false;
                 this.notifications.open("Pari sur match nul modifié",null,{duration: 2000,});
@@ -130,7 +155,7 @@ export class GamesComponent implements OnInit {
 
     onBChange($event: MatSlideToggleChange) {
         let gameId = +$event.source.id.split("_")[0];
-        let pos = $event.source.id.split("_")[1];
+        let pos = +$event.source.id.split("_")[1];
         let currentGame = this.games.find(x => x.id == gameId);
 
         //Activated B
@@ -145,7 +170,7 @@ export class GamesComponent implements OnInit {
                 this.notifications.open("Pari sur " + currentGame.teamB + " ("+currentGame.oddB +") ajouté",null,{duration: 2000,});
                 this.menuService.increaseBadgeForMenuBets();
             }
-            this.betService.addToBetCart(currentGame,"B")
+            this.betService.addToBetCart(currentGame, 'B', pos)
             //Deactivated A
         }else {
             this.notifications.open("Pari sur " + currentGame.teamB + " ("+currentGame.oddB +") retiré",null,{duration: 2000,});
@@ -176,6 +201,12 @@ export class GamesComponent implements OnInit {
         }else {
             this.notifications.open("Pari sur sur match nul ("+currentGame.oddN +") retiré",null,{duration: 2000,});
             this.menuService.decreaseBadgeForMenuBets();
+        }
+    }
+
+    btnStyleN(i:number){
+        if(this.toggleNChecked[i]){
+            return '{background-color : yellowgreen; }'
         }
     }
 }

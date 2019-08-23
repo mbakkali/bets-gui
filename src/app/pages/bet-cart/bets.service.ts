@@ -9,22 +9,35 @@ export class BetsService {
     public url = environment.url;
     constructor(public http:HttpClient) { }
 
-/*
     bets : Map<number,{game : Game,choice :string}> = new Map<number, {game: Game, choice: string}>();
-*/
 
-    addToBetCart(game : Game,choice : string){
-/*
-        this.bets.setValue()
-*/
+    getBets(){
+       return Array.from(this.bets.values()).map(value => value.game)
     }
 
-    removeBetFromCart(game : Game){
-
+    addToBetCart(game: Game, choice: string, pos: number){
+        console.log("addToBetCart");
+        this.bets.set(pos,{game : game, choice : choice});
+        console.log(this.bets);
     }
 
-
-
+    removeBetFromCart(game : Game):boolean{
+        console.log("removeBetFromCart");
+        let indexToDelete:number;
+        this.bets.forEach((value, key, map) => {
+            if(value.game.id === game.id){
+                indexToDelete = key;
+            }
+        });
+        if(indexToDelete != null ){
+            console.log(this.bets);
+            return this.bets.delete(indexToDelete);
+        }else {
+            console.log("Can't find index to delete from",game);
+            console.log(this.bets);
+            return false;
+        }
+    }
 
     getUsers(): Observable<Game[]> {
         return this.http.get<Game[]>(this.url + 'games');
