@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {BetsService} from './bets.service';
 
 @Component({
   selector: 'app-cart',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BetCartComponent implements OnInit {
 
-  constructor() { }
+  constructor(private betsService : BetsService) { }
 
   ngOnInit() {
   }
 
+  showBets():boolean {
+    return this.betsService.getBets().length > 0;
+  }
 }

@@ -3,55 +3,80 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {Game} from '../games/game.model';
+import {FullBet} from './fullbet.model';
 
 @Injectable()
 export class BetsService {
     public url = environment.url;
     constructor(public http:HttpClient) { }
 
-    bets : Map<number,{game : Game,choice :string}> = new Map<number, {game: Game, choice: string}>();
+    games : Map<number,Game> = new Map<number, Game>();
 
     getBets(){
-       return Array.from(this.bets.values()).map(value => value.game)
+       return Array.from(this.games.values()).filter((value: Game) => value.checked == true);
     }
 
-    addToBetCart(game: Game, choice: string, pos: number){
+    addToBetCart(game: Game){
         console.log("addToBetCart");
-        this.bets.set(pos,{game : game, choice : choice});
-        console.log(this.bets);
     }
 
-    removeBetFromCart(game : Game):boolean{
+    removeBetFromCart(game : Game){
         console.log("removeBetFromCart");
-        let indexToDelete:number;
-        this.bets.forEach((value, key, map) => {
-            if(value.game.id === game.id){
-                indexToDelete = key;
+        this.games.get(game.id).checked = false;
+        this.games.get(game.id).choice = null;
+    }
+
+    deleteAllBets() {
+        this.games.forEach((value, key, map) => {
+            if(value.checked == true){
+                value.checked = false;
+                value.choice = null;
             }
         });
-        if(indexToDelete != null ){
-            console.log(this.bets);
-            return this.bets.delete(indexToDelete);
-        }else {
-            console.log("Can't find index to delete from",game);
-            console.log(this.bets);
-            return false;
-        }
     }
 
-    getUsers(): Observable<Game[]> {
+    getBetByUser(userId : number){
+        return this.http.get<FullBet[]>(this.url +'bets/info/' + userId);
+    }
+
+    addBets(games:Game[]){
+        let bets = [];
+        games.forEach((game:Game) => {
+            if(game.amount > 0 && game.choice != null && game.id != null){
+                bets.push({
+                    amount : game.amount,
+                    betChoice : game.choice,
+                    gameId : game.id
+                });
+            }
+        });
+        return this.http.post(this.url +'bets', bets);
+
+    }
+
+    getGames() :Game[]{
+        return Array.from(this.games.values());
+    }
+
+    loadGames() {
         return this.http.get<Game[]>(this.url + 'games');
     }
 
-    addUser(user:Game){
+    addGame(user:Game){
         return this.http.post(this.url +'games', user);
     }
 
-    updateUser(user:Game){
+    updateGame(user:Game){
         return this.http.post(this.url+'games', user );
     }
 
-    deleteUser(id: number) {
-        return this.http.delete(this.url + "delete/" + id);
-    } 
-} 
+    deleteGame(id: number) {
+        return this.http.delete(this.url + "games/delete/" + id);
+    }
+
+    deleteOwnerBets(id: number) {
+        return this.http.delete(this.url + "/bets/delete/user//" + id);
+    }
+
+
+}

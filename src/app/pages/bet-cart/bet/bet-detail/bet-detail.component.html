@@ -1,0 +1,34 @@
+<div style="text-align: center">
+
+    <div *ngIf="showIcon">
+        <div style="color: #283593;">
+            <mat-icon style="font-size: 70px;margin-right: 35px;">done_outline</mat-icon>
+        </div>
+        <h5>Pari sauvegardé avec succès </h5>
+    </div>
+    <h5>Numéro du ticket : <span style="color: #283593; font-size: 50px">{{userId}}</span></h5>
+
+    <div class="form-inline" style="margin-bottom: 20px; justify-content: center">
+        <div>
+            <button mat-raised-button class="m-1" printSectionId="print-section" ngxPrint>
+                <mat-icon>print</mat-icon>
+                Imprimer
+            </button>
+            <button mat-raised-button color="primary" class="m-1" routerLink="/games">
+                <mat-icon>keyboard_backspace</mat-icon>
+                Retour aux matchs
+            </button>
+            <button mat-raised-button color="warn" class="m-1" (click)="deleteBet()">
+                <mat-icon>delete</mat-icon>
+                Supprimer le pari
+            </button>
+        </div>
+    </div>
+
+    <mat-divider></mat-divider>
+    <br>
+    <br>
+    <div id="print-section">
+        <app-bet-invoice [bets]="bets" [invoidId]="userId"></app-bet-invoice>
+    </div>
+</div>

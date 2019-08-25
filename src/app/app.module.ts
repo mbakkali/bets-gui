@@ -53,6 +53,10 @@ import {registerLocaleData} from '@angular/common';
 import {BetsService} from './pages/bet-cart/bets.service';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { SimpleBetComponent } from './pages/bet-cart/simple-bet/simple-bet.component';
+import { BetComponent } from './pages/bet-cart/bet/bet.component';
+import {NgxPrintModule} from 'ngx-print';
+import { BetInvoiceComponent } from './pages/bet-cart/bet/bet-invoice/bet-invoice.component';
+import { BetDetailComponent } from './pages/bet-cart/bet/bet-detail/bet-detail.component';
 registerLocaleData(localeFr);
 
 @NgModule({
@@ -74,6 +78,7 @@ registerLocaleData(localeFr);
     routing,
     FontAwesomeModule,
       HttpClientModule,
+    NgxPrintModule
   ],
   declarations: [
     AppComponent,
@@ -92,7 +97,10 @@ registerLocaleData(localeFr);
     MessagesComponent,
     UserMenuComponent,
     BetCartComponent,
-    SimpleBetComponent
+    SimpleBetComponent,
+    BetComponent,
+    BetInvoiceComponent,
+    BetDetailComponent
   ],
   entryComponents:[
     VerticalMenuComponent

@@ -1,9 +1,57 @@
-<mat-list>
-    <h3 mat-subheader>Folders</h3>
-    <mat-list-item *ngFor="let bet of getBets()">
+<!--
+    <h6 mat-subheader>Paris en cours (<a  (click)="deleteAllBets()">supprimer le panier</a>)</h6>
+    <div *ngFor="let bet of getBets()" style="padding: 20px">
+        <div class="row">
+            <h6>{{bet.teamA}} - {{bet.teamB}} ({{bet.datetime | date}}) </h6>
+            <br>
+            <p *ngIf="bet.choice === 'A'">N° {{bet.id}} 1/N/2 : <span style="color: #646464;font-weight: bold">{{bet.teamA}} - ({{bet.oddA | number: ".2-2"}})</span></p>
+            <p *ngIf="bet.choice === 'B'">N° {{bet.id}} 1/N/2 : <span style="color: #646464;font-weight: bold">{{bet.teamB}} - ({{bet.oddB | number: ".2-2"}})</span></p>
+            <p *ngIf="bet.choice === 'N'">N° {{bet.id}} 1/N/2 : <span style="color: #646464;font-weight: bold">Match nul - ({{bet.oddA | number: ".2-2"}})</span></p>
+            <br>
+
+
+            <mat-form-field class="mat-list-text w-100" appearance="outline" style="margin-left: 5px;">
+                <mat-label>Mise</mat-label>
+                <mat-placeholder>Mise</mat-placeholder>
+                <input autocomplete="off" type="number" matInput formControlName="oddA" required>
+            </mat-form-field>
+            <mat-icon mat-list-icon style="color: darkred; cursor: pointer" matRipple (click)="delete(bet)">delete</mat-icon>
+        </div>
+    </div>-->
+
+
+
+<mat-list *ngIf="!loadingSavedBet">
+    <mat-list-item *ngFor="let bet of getBets()" style="margin-bottom: 2px">
         <mat-icon mat-list-icon style="color: darkred; cursor: pointer" matRipple (click)="delete(bet)">delete</mat-icon>
-        <h4 mat-line>{{bet.teamA}} - {{bet.teamB}} </h4>
-        <p mat-line> {{bet.datetime | date}} </p>
+        <h4 mat-line style="text-align: center; color: #283593; font-weight: bold">{{bet.teamA}} - {{bet.teamB}} ({{bet.datetime | date}}) </h4>
+        <br mat-line>
+        <p mat-line *ngIf="bet.choice === 'A'">N° {{bet.id}} 1/N/2 : <span style="color: #646464;font-weight: bold">{{bet.teamA}} - ({{bet.oddA | number: ".2-2"}})</span></p>
+        <p mat-line *ngIf="bet.choice === 'B'">N° {{bet.id}} 1/N/2 : <span style="color: #646464;font-weight: bold">{{bet.teamB}} - ({{bet.oddB | number: ".2-2"}})</span></p>
+        <p mat-line *ngIf="bet.choice === 'N'">N° {{bet.id}} 1/N/2 : <span style="color: #646464;font-weight: bold">Match nul - ({{bet.oddA | number: ".2-2"}})</span></p>
+            <div style="margin-top: 10px; margin-bottom: 2px" mat-line class="col-md-6 col-lg-6">
+                <mat-form-field appearance="outline">
+                    <mat-label>Mise</mat-label>
+                    <mat-placeholder>Mise</mat-placeholder>
+                    <input [(ngModel)]="bet.amount" autocomplete="off" type="number" matInput required>
+                    <p matSuffix>€</p>
+                </mat-form-field>
+            </div>
         <mat-divider></mat-divider>
+
     </mat-list-item>
+
+    <div *ngIf="getBets().length >0" style="margin-top: 20px">
+        <div style="justify-content: center">
+            <h6>{{getBets().length}} paris en cours (<a style="color: darkred; cursor: pointer" (click)="deleteAllBets()">supprimer le panier</a>)</h6>
+            <h6>Mise totale : {{getTotalAmount() | number: ".2-2"}} €</h6>
+            <h6>Gains potentiels : {{getPotentialGains() | number: ".2-2"}} €</h6>
+        </div>
+
+    <div style="text-align: center"><button mat-raised-button color="primary" (click)="onSubmitBet()">Valider</button></div>
+    </div>
 </mat-list>
+
+<div *ngIf="loadingSavedBet"  fxLayout="column" fxLayoutAlign="center center" style="text-align: center">
+    <app-spinner [message]="'Sauvegarde du pari en cours ...'"></app-spinner>
+</div>

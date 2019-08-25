@@ -25,9 +25,9 @@
          fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50" class="flex-p">
         <mat-card class="p-0">
 
-            <div class="bg-primary" fxLayout="row" fxLayoutAlign="space-between center">
+            <div style="background-color: #283593;color: white" fxLayout="row" fxLayoutAlign="space-between center">
                 <img style="max-width: 50px" mat-card-avatar src="assets/football.png"/>
-                <h3 class="user-name">{{game.teamA}} - {{game.teamB}}</h3>
+                <h5 class="user-name">{{game.teamA}} - {{game.teamB}}</h5>
                 <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger">
                     <mat-icon>more_vert</mat-icon>
                 </button>
@@ -38,7 +38,7 @@
                         <mat-icon>mode_edit</mat-icon>
                         <span>Modifier</span>
                     </button>
-                    <button mat-menu-item (click)="deleteUser(game);">
+                    <button mat-menu-item (click)="deleteGame(game);">
                         <mat-icon>delete</mat-icon>
                         <span>Supprimer</span>
                     </button>
@@ -47,43 +47,24 @@
             <div fxLayout="row" fxLayoutAlign="space-around center">
                 <div style="padding: 5px; margin: 20px;" fxFlex="30" fxLayout="column" class="user-details transition-2"
                      [class.blocked]="isGameBlocked(game)">
-                    <mat-button-toggle [disabled]="isGameBlocked(game) || isGameEnded(game)" *ngIf="!toggleAChecked[i]"
-                                       [checked]="toggleAChecked[i]"
-                                       (change)="toggleAChecked[i] = $event.source.checked" (change)="onAChange($event)"
-                                       [id]="game.id +'_' + i + '_A'">
+                    <mat-button-toggle [disabled]="isGameBlocked(game) || isGameEnded(game)"
+                                       [checked]="game.checked && game.choice === 'A'"
+                                       (change)="onAChange(game)"
+                                       [style]="onStyle(game)">
                         {{game.oddA | number: ".2-2"}}
                         <mat-icon>arrow_right</mat-icon>
                         <span style="font-weight: bold">{{game.teamA}}</span>
                     </mat-button-toggle>
 
-                    <mat-button-toggle *ngIf="toggleAChecked[i]"
-                                       style="border: solid yellowgreen; background-color: white"
-                                       [checked]="toggleAChecked[i]"
-                                       (change)="toggleAChecked[i] = $event.source.checked" (change)="onAChange($event)"
-                                       [id]="game.id +'_' + i + '_A'">
-                        {{game.oddA | number: ".2-2"}}
-                        <mat-icon>arrow_right</mat-icon>
-                        <span style="font-weight: bold">{{game.teamA}}</span>
-                    </mat-button-toggle>
                 </div>
 
 
                 <div style="padding: 5px; margin: 5px;" fxFlex="30" fxLayout="column" class="user-details transition-2"
                      [class.blocked]="isGameBlocked(game)">
-                    <mat-button-toggle [disabled]="isGameBlocked(game) || isGameEnded(game)" *ngIf="!toggleBChecked[i]"
-                                       [checked]="toggleBChecked[i]"
-                                       (change)="toggleBChecked[i] = $event.source.checked" (change)="onBChange($event)"
-                                       [id]="game.id +'_' + i + '_B'">
-                        {{game.oddB | number: ".2-2"}}
-                        <mat-icon>arrow_right</mat-icon>
-                        <span style="font-weight: bold">{{game.teamB}}</span>
-                    </mat-button-toggle>
-
-                    <mat-button-toggle *ngIf="toggleBChecked[i]"
-                                       style="border: solid yellowgreen; background-color: white"
-                                       [checked]="toggleBChecked[i]"
-                                       (change)="toggleBChecked[i] = $event.source.checked" (change)="onBChange($event)"
-                                       [id]="game.id +'_' + i + '_N'">
+                    <mat-button-toggle [disabled]="isGameBlocked(game) || isGameEnded(game)"
+                                       [checked]="game.checked && game.choice === 'B'"
+                                       (change)="onBChange(game)"
+                                       [style]="onStyle(game)">
                         {{game.oddB | number: ".2-2"}}
                         <mat-icon>arrow_right</mat-icon>
                         <span style="font-weight: bold">{{game.teamB}}</span>
@@ -94,20 +75,10 @@
                 <div *ngIf="game.oddN" style="padding: 5px; margin: 5px;font-size: 120%" fxFlex="30" fxLayout="column"
                      class="user-details transition-2" [class.blocked]="isGameBlocked(game)">
 
-                    <mat-button-toggle [disabled]="isGameBlocked(game) || isGameEnded(game)" *ngIf="!toggleNChecked[i]"
-                                       [checked]="toggleNChecked[i]"
-                                       (change)="toggleNChecked[i] = $event.source.checked" (change)="onNChange($event)"
-                                       [id]="game.id +'_' + i + '_N'">
-                        {{game.oddN | number: ".2-2"}}
-                        <mat-icon>arrow_right</mat-icon>
-                        <span style="font-weight: bold">Match nul</span>
-                    </mat-button-toggle>
-
-                    <mat-button-toggle *ngIf="toggleNChecked[i]"
-                                       style="border: solid yellowgreen; background-color: white"
-                                       [checked]="toggleNChecked[i]"
-                                       (change)="toggleNChecked[i] = $event.source.checked" (change)="onNChange($event)"
-                                       [id]="game.id +'_' + i + '_N'">
+                    <mat-button-toggle [disabled]="isGameBlocked(game) || isGameEnded(game)"
+                                       [checked]="game.checked && game.choice === 'N'"
+                                       (change)="onNChange(game)"
+                                       [style]="onStyle(game)">
                         {{game.oddN | number: ".2-2"}}
                         <mat-icon>arrow_right</mat-icon>
                         <span style="font-weight: bold">Match nul</span>

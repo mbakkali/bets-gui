@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   url: "https://ec2-34-218-226-215.us-west-2.compute.amazonaws.com:8081/"
+  //url : "https://localhost:8081/"
 };
 
 /*

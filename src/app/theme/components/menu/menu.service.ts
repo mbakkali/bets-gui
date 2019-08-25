@@ -84,4 +84,11 @@ export class MenuService {
     }
 
 
+    setBadgeNumberTo(newValue : number) {
+        for (let horizontalMenuItem of horizontalMenuItems) {
+            if (horizontalMenuItem.routerLink == '/cart') {
+                horizontalMenuItem.badgeCount = newValue;
+            }
+        }
+    }
 }

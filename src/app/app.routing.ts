@@ -7,6 +7,7 @@ import { SearchComponent } from './pages/search/search.component';
 import { NotFoundComponent } from './pages/errors/not-found/not-found.component';
 import { ErrorComponent } from './pages/errors/error/error.component';
 import {BetCartComponent} from './pages/bet-cart/bet-cart.component';
+import {BetComponent} from './pages/bet-cart/bet/bet.component';
 
 export const routes: Routes = [
     { 
@@ -29,7 +30,8 @@ export const routes: Routes = [
             { path: 'profile', loadChildren: () => import ('./pages/profile/profile.module').then(m => m.ProfileModule), data: { breadcrumb: 'Profile' } }, 
             { path: 'blank', component: BlankComponent, data: { breadcrumb: 'Blank page' } },
             { path: 'search', component: SearchComponent, data: { breadcrumb: 'Search' } },
-            { path: 'cart', component: BetCartComponent, data: { breadcrumb: 'Cart' } }
+            { path: 'cart', component: BetCartComponent, data: { breadcrumb: 'Cart' } },
+            { path: 'bet/:id', component: BetComponent, data: { breadcrumb: 'Search' } }
         ]
     },
     { path: 'landing', loadChildren: () => import('./pages/landing/landing.module').then(m => m.LandingModule) },

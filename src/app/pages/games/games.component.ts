@@ -3,7 +3,6 @@ import {MatDialog, MatSlideToggleChange, MatSnackBar} from '@angular/material';
 import {AppSettings} from '../../app.settings';
 import {Settings} from '../../app.settings.model';
 import {Game} from './game.model';
-import {GamesService} from './games.service';
 import {GameDialogComponent} from './user-dialog/game-dialog.component';
 import * as moment from 'moment';
 import {MenuService} from '../../theme/components/menu/menu.service';
@@ -13,22 +12,16 @@ import {BetsService} from '../bet-cart/bets.service';
     selector: 'app-users',
     templateUrl: './games.component.html',
     styleUrls: ['./games.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    providers: [GamesService]
-})
+    encapsulation: ViewEncapsulation.None})
 export class GamesComponent implements OnInit {
     public games: Game[];
     public searchText: string;
     public page: any;
     public settings: Settings;
     showPassedGames = false;
-    toggleNChecked = [];
-    toggleAChecked = [];
-    toggleBChecked = [];
 
     constructor(public appSettings: AppSettings,
                 public dialog: MatDialog,
-                public usersService: GamesService,
                 public notifications: MatSnackBar,
                 private menuService : MenuService,
                 private betService : BetsService) {
@@ -36,55 +29,67 @@ export class GamesComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getUsers();
+
+        this.getGames();
     }
 
     public filteredGames(): Game[]{
         if(this.games){
+            let filtered = [];
             if(this.showPassedGames){
-                return this.games;
+                filtered = this.games;
             }else {
-                return this.games.filter(game => !this.isGameEnded(game))
+                filtered = this.games.filter(game => !this.isGameEnded(game))
             }
+            return filtered;
         }
     }
 
-    public getUsers(): void {
+    public getGames(): void {
         this.games = null; //for show spinner each time
-        this.usersService.getUsers().subscribe(games => {
-            console.log('Loaded games', games);
-            this.games = games;
+        this.betService.loadGames().subscribe( games => {
+            games.forEach(value => {
+                if(!this.betService.games.has(value.id)){
+                    this.betService.games.set(value.id,value);
+                }
+            });
+            this.games = this.betService.getGames();
         });
     }
 
-    public addUser(user: Game) {
-        this.usersService.addUser(user).subscribe((user: Game) => {
+    public addGame(user: Game) {
+        this.betService.addGame(user).subscribe((user: Game) => {
             console.log('Saved game', user);
             this.notifications.open('Nouveau match ' + user.teamA + '/' + user.teamB + ' ajouté', null, {duration: 2000,});
-            this.getUsers();
+            this.getGames();
         });
     }
 
-    public updateUser(user: Game) {
-        this.usersService.updateUser(user).subscribe((user: Game) => {
+    public updateGame(user: Game) {
+        this.betService.updateGame(user).subscribe((user: Game) => {
             console.log('Modifed game', user);
             this.notifications.open('Match ' + user.teamA + '/' + user.teamB + ' modifié', null, {duration: 2000,});
-            this.getUsers();
+            this.getGames();
         });
     }
 
-    public deleteUser(user: Game) {
-        this.usersService.deleteUser(user.id).subscribe(() => {
+    public deleteGame(user: Game) {
+        this.betService.deleteGame(user.id).subscribe(() => {
             console.log('Modifed game', user);
             this.notifications.open('Match ' + user.teamA + '/' + user.teamB + ' supprimé', null, {duration: 2000,});
-            this.getUsers();
+            this.betService.games.forEach(value => {
+                if(!this.betService.games.has(value.id)){
+                    this.betService.games.delete(user.id);
+                }
+            });
+            this.games = this.betService.getGames();
         });
     }
 
 
     public onPageChanged(event) {
         this.page = event;
-        this.getUsers();
+        this.getGames();
         if (this.settings.fixedHeader) {
             document.getElementById('main-content').scrollTop = 0;
         }
@@ -103,110 +108,84 @@ export class GamesComponent implements OnInit {
                 let date: Date = game.date;
                 date.setHours(+game.time.split(':')[0]);
                 date.setMinutes(+game.time.split(':')[1]);
-                let datetime = moment(date).format('YYYY-MM-DDTHH:mm:00.000');
-                game.datetime = datetime;
-                (game.id) ? this.updateUser(game) : this.addUser(game);
+                game.datetime = moment(date).format('YYYY-MM-DDTHH:mm:00.000');
+                (game.id) ? this.updateGame(game) : this.addGame(game);
             }
         });
     }
 
     isGameBlocked(game: Game) {
         let timeToNow = new Date(game.datetime).getTime() - new Date().getTime()
-        if(timeToNow >= 0 && timeToNow < 5 * 60 * 1000){
-            return true;
-        }else {
-            return false;
-        }
+        return timeToNow >= 0 && timeToNow < 5 * 60 * 1000;
     }
 
     isGameEnded(game: Game) {
         let timeToNow = new Date(game.datetime).getTime() - new Date().getTime()
-        if(timeToNow < 0){
-            return true;
-        }else {
-            return false;
-        }
+        return timeToNow < 0;
     }
 
 
-    onAChange($event: MatSlideToggleChange) {
-        let gameId = +$event.source.id.split("_")[0];
-        let pos = $event.source.id.split("_")[1];
-        let currentGame = this.games.find(x => x.id == gameId);
-
-        //Activated A
-        if(this.toggleAChecked[pos] == true) {
-            if (this.toggleBChecked[pos] == true) {
-                this.toggleBChecked[pos] = false;
-                this.notifications.open("Pari sur " + currentGame.teamA + " ("+currentGame.oddA +") modifié",null,{duration: 2000,});
-            } else if (this.toggleNChecked[pos] != undefined && this.toggleNChecked[pos] == true) {
-                this.toggleNChecked[pos] = false;
-                this.notifications.open("Pari sur match nul modifié",null,{duration: 2000,});
-            } else {
-                this.notifications.open("Pari sur " + currentGame.teamA + " ("+currentGame.oddA +") ajouté",null,{duration: 2000,});
-                this.menuService.increaseBadgeForMenuBets();
-            }
+    onAChange(currentGame:Game) {
         //Deactivated A
-        }else {
+        if(currentGame.checked && currentGame.choice ==='A') {
+            currentGame.choice = null;
+            currentGame.checked = false;
+            currentGame.amount = null;
+            this.betService.removeBetFromCart(currentGame);
             this.notifications.open("Pari sur " + currentGame.teamA + " ("+currentGame.oddA +") retiré",null,{duration: 2000,});
             this.menuService.decreaseBadgeForMenuBets();
+            //Activated A
+        }else {
+            currentGame.choice = 'A';
+            currentGame.checked = true;
+            currentGame.amount = 10;
+            this.notifications.open("Pari sur " + currentGame.teamA + " ("+currentGame.oddA +") ajouté",null,{duration: 2000,});
+            this.menuService.increaseBadgeForMenuBets();
         }
     }
 
-    onBChange($event: MatSlideToggleChange) {
-        let gameId = +$event.source.id.split("_")[0];
-        let pos = +$event.source.id.split("_")[1];
-        let currentGame = this.games.find(x => x.id == gameId);
-
-        //Activated B
-        if(this.toggleBChecked[pos] == true) {
-            if (this.toggleAChecked[pos] == true) {
-                this.toggleAChecked[pos] = false;
-                this.notifications.open("Pari sur " + currentGame.teamA + " ("+currentGame.oddA +") modifié",null,{duration: 2000,});
-            } else if (this.toggleNChecked[pos] != undefined && this.toggleNChecked[pos] == true) {
-                this.toggleNChecked[pos] = false;
-                this.notifications.open("Pari sur match nul modifié ",null,{duration: 2000,});
-            } else {
-                this.notifications.open("Pari sur " + currentGame.teamB + " ("+currentGame.oddB +") ajouté",null,{duration: 2000,});
-                this.menuService.increaseBadgeForMenuBets();
-            }
-            this.betService.addToBetCart(currentGame, 'B', pos)
-            //Deactivated A
-        }else {
+    onBChange(currentGame:Game) {
+        //Deactivated A
+        if(currentGame.checked && currentGame.choice ==='B') {
+            currentGame.choice = null;
+            currentGame.checked = false;
+            currentGame.amount = null;
+            this.betService.removeBetFromCart(currentGame);
             this.notifications.open("Pari sur " + currentGame.teamB + " ("+currentGame.oddB +") retiré",null,{duration: 2000,});
             this.menuService.decreaseBadgeForMenuBets();
-            this.betService.removeBetFromCart(currentGame)
-
-        }
-    }
-
-    onNChange($event: MatSlideToggleChange) {
-        let gameId = +$event.source.id.split("_")[0];
-        let pos = $event.source.id.split("_")[1];
-        let currentGame = this.games.find(x => x.id == gameId);
-
-        //Activated N
-        if(this.toggleNChecked[pos] == true) {
-            if (this.toggleAChecked[pos] == true) {
-                this.toggleAChecked[pos] = false;
-                this.notifications.open("Pari sur " + currentGame.teamA + " ("+currentGame.oddA +") modifié. Nouveau pari sur match nul",null,{duration: 2000,});
-            } else if (this.toggleBChecked[pos] == true) {
-                this.toggleBChecked[pos] = false;
-                this.notifications.open("Pari sur " + currentGame.teamB + " ("+currentGame.oddB +") modifié. Nouveau pari sur match nul",null,{duration: 2000,});
-            } else {
-                this.notifications.open("Pari sur match nul ("+currentGame.oddN +") ajouté",null,{duration: 2000,});
-                this.menuService.increaseBadgeForMenuBets();
-            }
-            //Deactivated A
+            //Activated A
         }else {
-            this.notifications.open("Pari sur sur match nul ("+currentGame.oddN +") retiré",null,{duration: 2000,});
-            this.menuService.decreaseBadgeForMenuBets();
+            currentGame.choice = 'B';
+            currentGame.checked = true;
+            currentGame.amount = 10;
+            this.notifications.open("Pari sur " + currentGame.teamB + " ("+currentGame.oddB +") ajouté",null,{duration: 2000,});
+            this.menuService.increaseBadgeForMenuBets();
         }
     }
 
-    btnStyleN(i:number){
-        if(this.toggleNChecked[i]){
-            return '{background-color : yellowgreen; }'
+    onNChange(currentGame:Game) {
+        //Deactivated A
+        if(currentGame.checked && currentGame.choice ==='N') {
+            currentGame.choice = null;
+            currentGame.checked = false;
+            currentGame.amount = null;
+            this.betService.removeBetFromCart(currentGame);
+            this.notifications.open("Pari sur match nul" + " ("+currentGame.oddN +") retiré",null,{duration: 2000,});
+            this.menuService.decreaseBadgeForMenuBets();
+            //Activated A
+        }else {
+            currentGame.choice = 'N';
+            currentGame.checked = true;
+            currentGame.amount = 10;
+            this.notifications.open("Pari sur match nul" + " ("+currentGame.oddN +") ajouté",null,{duration: 2000,});
+            this.menuService.increaseBadgeForMenuBets();
+        }
+    }
+
+
+    onStyle(game: Game) {
+        if(game != null &&  game.checked == true){
+            return '{border: solid yellowgreen;background-color: white}'
         }
     }
 }
