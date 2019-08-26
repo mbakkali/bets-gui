@@ -1,51 +1,116 @@
-<app-info-cards></app-info-cards>
+<div *ngIf="statistics && !errorLoadingStats">
 
 <div fxLayout="row wrap">
-    <div fxFlex="100" fxFlex.gt-sm="45" class="flex-p"> 
-        <app-disk-space></app-disk-space>
+    <div fxFlex="100" fxFlex.gt-sm="25" fxFlex.sm="50" class="flex-p">
+        <mat-card>
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="muted-text">
+                <mat-icon class="icon-lg">euro</mat-icon>
+                <div>
+                    <h3>{{statistics.totalAmount | number: ".2-2"}} €</h3>
+                    <h4 class="fw-400">Total parié</h4>
+                </div>
+            </div>
+        </mat-card>
     </div>
-    <div fxFlex="100" fxFlex.gt-sm="55" class="flex-p">
-        <app-todo></app-todo>
+
+    <div fxFlex="100" fxFlex.gt-sm="25" fxFlex.sm="50" class="flex-p">
+        <mat-card>
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="muted-text">
+                <mat-icon class="icon-lg">loop</mat-icon>
+                <div>
+                    <h3 style="text-align: right">{{statistics.betNumber}}</h3>
+                    <h4 class="fw-400">Paris en cours</h4>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+
+    <div fxFlex="100" fxFlex.gt-sm="25" fxFlex.sm="50" class="flex-p">
+        <mat-card>
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="muted-text">
+                <mat-icon class="icon-lg">calendar_today</mat-icon>
+                <div>
+                    <h3 style="text-align: right">{{statistics.gameNumber}}</h3>
+                    <h4 class="fw-400">Matchs à venir</h4>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+
+    <div fxFlex="100" fxFlex.gt-sm="25" fxFlex.sm="50" class="flex-p">
+        <mat-card>
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="muted-text">
+                <mat-icon class="icon-lg">access_time</mat-icon>
+                <div>
+                    <h3 style="text-align: right">{{statistics.gameEndedNumber}}</h3>
+                    <h4 class="fw-400">Matchs terminés</h4>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+
+</div>
+
+
+<div fxLayout="row wrap">
+    <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.sm="100"  class="flex-p">
+    <mat-card>
+        <mat-card-header fxLayoutAlign="center center">
+            <mat-card-subtitle><h4>Mises totales de la semaine</h4></mat-card-subtitle>
+        </mat-card-header>
+        <div class="w-100 h-300p">
+            <ngx-charts-bar-vertical
+                    [scheme]="colorScheme"
+                    [gradient]="gradient"
+                    [xAxis]="showXAxis"
+                    [yAxis]="showYAxis"
+                    [legend]="showLegend"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel"
+                    [xAxisLabel]="xAxisLabel"
+                    [yAxisLabel]="yAxisLabel"
+                    [results]="single"
+                    (select)="onSelect($event)">
+            </ngx-charts-bar-vertical>
+        </div>
+    </mat-card>
+    </div>
+
+    <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.sm="100"  class="flex-p">
+        <mat-card>
+            <mat-card-header fxLayoutAlign="center center">
+                <mat-card-subtitle><h4>Matchs les plus pariés</h4></mat-card-subtitle>
+            </mat-card-header>
+            <div class="w-100 h-300p">
+                <ngx-charts-bar-horizontal
+                        [scheme]="top10_colorScheme"
+                        [gradient]="top10_gradient"
+                        [xAxis]="top10_showXAxis"
+                        [yAxis]="top10_showYAxis"
+                        [legend]="top10_showLegend"
+                        [showXAxisLabel]="top10_showXAxisLabel"
+                        [showYAxisLabel]="top10_showYAxisLabel"
+                        [xAxisLabel]="top10_xAxisLabel"
+                        [yAxisLabel]="top10_yAxisLabel"
+                        [results]="top10_single"
+                        (select)="onSelect($event)">
+                </ngx-charts-bar-horizontal>
+            </div>
+        </mat-card>
     </div>
 </div>
 
-<div fxLayout="row wrap">
-    <div fxFlex="100" fxFlex.gt-sm="70" class="flex-p"> 
-        <app-analytics></app-analytics>
+</div>
+
+
+<div *ngIf="!statistics && !errorLoadingStats" fxLayout="column" fxLayoutAlign="center center"
+     style="text-align: center; margin-top: 30px">
+    <app-spinner [message]="'Chargement des statistiques'"></app-spinner>
+</div>
+
+<div *ngIf="errorLoadingStats" style="text-align: center; margin-top: 30px">
+    <div style="color: #283593;">
+        <mat-icon style="font-size: 70px;margin-right: 35px;">mood_bad</mat-icon>
     </div>
-    <div fxFlex="100" fxFlex.gt-sm="30" fxLayout="column">
-        <div fxFlex="100" class="flex-p">
-            <mat-card>
-                <div fxLayout="row" fxLayoutAlign="space-between center" class="muted-text">
-                    <mat-icon class="icon-lg">monetization_on</mat-icon>
-                    <div>
-                        <h1>$ 35700</h1>
-                        <h2 class="fw-400">Profit</h2>
-                    </div>                
-                </div>            
-            </mat-card>
-        </div>
-        <div fxFlex="100" class="flex-p">
-            <mat-card>
-                <div fxLayout="row" fxLayoutAlign="space-between center" class="muted-text">
-                    <mat-icon class="icon-lg">cloud_download</mat-icon>
-                    <div>
-                        <h1>187230</h1>
-                        <h2 class="fw-400">Downloads</h2>
-                    </div>                
-                </div>            
-            </mat-card>
-        </div>       
-        <div fxFlex="100" class="flex-p">
-            <mat-card>
-                <div fxLayout="row" fxLayoutAlign="space-between center" class="muted-text">
-                    <mat-icon class="icon-lg">shopping_cart</mat-icon>
-                    <div>
-                        <h1>78,25 %</h1>
-                        <h2 class="fw-400">Sales</h2>
-                    </div>                
-                </div>            
-            </mat-card>
-        </div>
-    </div>
+    <h5>Pari introuvable ... le numéro saisi ne correspond à aucun pari</h5>
 </div>

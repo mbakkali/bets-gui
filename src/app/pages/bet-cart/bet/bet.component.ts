@@ -17,27 +17,17 @@ export class BetComponent implements OnInit {
     constructor(private route: ActivatedRoute, private betsService: BetsService) {
     }
 
-    showSearchBar: boolean = false;
     bets: FullBet[];
     loadingBets: boolean = false;
 
     ngOnInit() {
         this.route.params.subscribe((params: any) => {
             if (params.id && +params.id > 0) {
-                this.loadingBets = true;
-                this.betsService
-                    .getBetByUser(params.id)
-                    .subscribe((fullBets: FullBet[]) => {
-                        this.userId = +params.id;
-                        this.bets = fullBets;
-                        this.loadingBets = false;
-                        this.displayErrorSearch = false;
-                        console.log('Retrieved bets for owner ', this.bets);
-                    });
+                this.input = +params.id
+               this.searchBetOwner()
             } else if (params.id && +params.id == 0) {
                 this.bets = null;
                 this.userId = null;
-                this.showSearchBar = true;
             }
         });
     }
@@ -68,4 +58,5 @@ export class BetComponent implements OnInit {
 
 
     }
+
 }

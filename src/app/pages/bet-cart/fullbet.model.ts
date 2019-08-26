@@ -10,4 +10,5 @@ export interface FullBet {
     amount: number;
     savedtime: string;
     betChoice: string;
+    ownerId: number;
 }

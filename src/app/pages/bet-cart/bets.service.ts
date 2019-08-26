@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {Game} from '../games/game.model';
 import {FullBet} from './fullbet.model';
+import {Statistic} from '../games/statistic.model';
 
 @Injectable()
 export class BetsService {
@@ -20,10 +21,18 @@ export class BetsService {
         console.log("addToBetCart");
     }
 
+    getAllBets(){
+        return this.http.get<FullBet[]>(this.url + 'bets');
+    }
+
     removeBetFromCart(game : Game){
         console.log("removeBetFromCart");
         this.games.get(game.id).checked = false;
         this.games.get(game.id).choice = null;
+    }
+
+    getStatistics(){
+        return this.http.get<Statistic>(this.url + 'stats');
     }
 
     deleteAllBets() {
@@ -75,7 +84,7 @@ export class BetsService {
     }
 
     deleteOwnerBets(id: number) {
-        return this.http.delete(this.url + "/bets/delete/user//" + id);
+        return this.http.delete(this.url + "/bets/delete/user/" + id);
     }
 
 

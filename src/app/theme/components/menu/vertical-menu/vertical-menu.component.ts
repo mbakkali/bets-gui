@@ -21,7 +21,8 @@ export class VerticalMenuComponent implements OnInit {
     this.settings = this.appSettings.settings;
   }
 
-  ngOnInit() {     
+  ngOnInit() {
+    this.menuItems = this.menuService.getVerticalMenuItems();
     this.parentMenu = this.menuItems.filter(item => item.parentId == this.menuParentId);  
   }
 

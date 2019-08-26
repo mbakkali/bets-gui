@@ -1,47 +1,28 @@
-<div *ngIf="!showSearchBar">
-    <div class="row">
+<div>
+    <div class="row" *ngIf="!displayErrorSearch && !isSearching">
         <div class="offset-md-3 col-md-6 offset-md-3">
-            <app-bet-detail [bets]="bets" [showIcon]="true" [userId]="userId"></app-bet-detail>
-        </div>
-    </div>
-</div>
-
-<div *ngIf="showSearchBar">
-    <div class="row">
-        <div class="offset-md-3 col-md-6 offset-md-3">
-
-            <div class="search-bar">
-                <mat-form-field>
-                    <mat-label>Numéro de pari</mat-label>
-                    <mat-placeholder>Mise</mat-placeholder>
-                    <input [(ngModel)]="input" autocomplete="off" type="number" matInput required>
-                </mat-form-field>
-
-                <button mat-raised-button color="primary" class="m-1" (click)="searchBetOwner() ">
-                    <mat-icon>search</mat-icon>
-                </button>
-
-            </div>
-
-            <div *ngIf="isSearching && !displayErrorSearch" style="text-align: center">
-                <mat-spinner style="display: initial;"></mat-spinner>
-            </div>
-
-            <div *ngIf="displayErrorSearch" style="text-align: center">
-                <div>
-                    <div style="color: #283593;">
-                        <mat-icon style="font-size: 70px;margin-right: 35px;">cancel</mat-icon>
-                    </div>
-                    <h5>Pari introuvable ... le numéro saisi ne correspond à aucun pari</h5>
-                </div>
-            </div>
-
-            <div *ngIf="!isSearching && bets">
-                <app-bet-detail [bets]="bets" [showIcon]="false" [userId]="userId"></app-bet-detail>
+            <app-bet-detail *ngIf="bets && bets.length > 0" [bets]="bets" [showIcon]="true"
+                            [userId]="userId"></app-bet-detail>
+            <div *ngIf="!bets" fxLayout="column" fxLayoutAlign="center center"
+                 style="text-align: center; display: block; margin-top: 30px">
+                <app-spinner [message]="'Chargement du pari '"></app-spinner>
             </div>
         </div>
     </div>
+
+
+    <div *ngIf="isSearching && !displayErrorSearch" fxLayout="column" fxLayoutAlign="center center" style="text-align: center; margin-top: 30px">
+        <app-spinner [message]="'Affichage du pari en cours'"></app-spinner>
+    </div>
+
+    <div *ngIf="displayErrorSearch" style="text-align: center; margin-top: 30px">
+        <div style="color: #283593;">
+            <mat-icon style="font-size: 70px;margin-right: 35px;">mood_bad</mat-icon>
+        </div>
+        <h5>Pari introuvable ... le numéro saisi ne correspond à aucun pari</h5>
+    </div>
 </div>
+
 
 <!--
 <div *ngIf="loadingBets"  fxLayout="column" fxLayoutAlign="center center" style="text-align: center">

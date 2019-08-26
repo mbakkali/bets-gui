@@ -1,34 +1,45 @@
-<div style="text-align: center">
+<div *ngIf="bets && showDeletionMessage == false && isDeletingBet == false">
 
-    <div *ngIf="showIcon">
-        <div style="color: #283593;">
-            <mat-icon style="font-size: 70px;margin-right: 35px;">done_outline</mat-icon>
+    <div style="text-align: center">
+        <div *ngIf="showIcon">
+            <div style="color: #283593;">
+                <mat-icon style="font-size: 70px;margin-right: 35px;">done_outline</mat-icon>
+            </div>
+            <h5>Pari sauvegardé avec succès </h5>
         </div>
-        <h5>Pari sauvegardé avec succès </h5>
-    </div>
-    <h5>Numéro du ticket : <span style="color: #283593; font-size: 50px">{{userId}}</span></h5>
+        <h5>Numéro du ticket : <span style="color: #283593; font-size: 50px">{{userId}}</span></h5>
 
-    <div class="form-inline" style="margin-bottom: 20px; justify-content: center">
-        <div>
-            <button mat-raised-button class="m-1" printSectionId="print-section" ngxPrint>
-                <mat-icon>print</mat-icon>
-                Imprimer
-            </button>
-            <button mat-raised-button color="primary" class="m-1" routerLink="/games">
-                <mat-icon>keyboard_backspace</mat-icon>
-                Retour aux matchs
-            </button>
-            <button mat-raised-button color="warn" class="m-1" (click)="deleteBet()">
-                <mat-icon>delete</mat-icon>
-                Supprimer le pari
-            </button>
+        <div class="form-inline" style="margin-bottom: 20px; justify-content: center">
+            <div>
+                <button mat-raised-button class="m-1" (click)="openPrintModal()">
+                    <mat-icon>remove_red_eye</mat-icon>
+                    Visualiser ticket
+                </button>
+                <button mat-raised-button color="primary" class="m-1" routerLink="/games">
+                    <mat-icon>keyboard_backspace</mat-icon>
+                    Retour aux matchs
+                </button>
+                <button mat-raised-button color="warn" class="m-1" (click)="deleteBet()">
+                    <mat-icon>delete</mat-icon>
+                    Supprimer le pari
+                </button>
+            </div>
         </div>
+
     </div>
 
-    <mat-divider></mat-divider>
     <br>
-    <br>
-    <div id="print-section">
-        <app-bet-invoice [bets]="bets" [invoidId]="userId"></app-bet-invoice>
+    <app-bet-sub-list fxLayout="column" fxLayoutAlign="center center" [bets]="bets"></app-bet-sub-list>
+</div>
+
+
+<div *ngIf="showDeletionMessage" fxLayout="column" fxLayoutAlign="center center" style="text-align: center; margin-top: 30px">
+    <div style="color: #283593;">
+        <mat-icon style="font-size: 70px;margin-right: 35px;">delete</mat-icon>
     </div>
+    <h5>Pari supprimé avec succès </h5>
+</div>
+
+<div *ngIf="isDeletingBet" fxLayout="column" fxLayoutAlign="center center" style="text-align: center; margin-top: 30px">
+    <app-spinner [message]="'Suppression du pari'"></app-spinner>
 </div>

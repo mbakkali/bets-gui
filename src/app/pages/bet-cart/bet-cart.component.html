@@ -1,6 +1,5 @@
 
-<div class="row" *ngIf="showBets()">
-<div class="offset-md-3 col-md-6 offset-md-3">
+<div class="row" *ngIf="showBets()" fxLayoutAlign="center center">
     <mat-tab-group >
         <mat-tab label="Simple">
             <app-simple-bet></app-simple-bet>
@@ -8,9 +7,13 @@
         <mat-tab label="Combiné"> </mat-tab>
     </mat-tab-group>
 </div>
-</div>
 
-<div class="row" *ngIf="!showBets()" fxLayout="column" fxLayoutAlign="center center" style="text-align: center">
-    <p>Aucun pari en cours</p>
+<div class="row" *ngIf="!showBets()" fxLayout="column" fxLayoutAlign="center center" style="text-align: center; padding-top: 100px">
+    <div>
+        <div style="color: #283593;">
+            <mat-icon style="font-size: 70px;margin-right: 35px;">mood_bad</mat-icon>
+        </div>
+        <h5>Aucun pari en cours</h5>
+    </div>
 </div>
 

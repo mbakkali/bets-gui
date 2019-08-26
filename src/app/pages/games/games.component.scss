@@ -3,9 +3,27 @@
         background-color: white
 }
 
+.mat-button-toggle {
+    white-space: nowrap;
+}
+
+.mat-button-toggle-label-content{
+    white-space: nowrap;
+
+}
+
+.game-title {
+    display: flex;
+    flex: auto;
+    margin-top: 10px;
+}
+
 .user-name{
     padding: 0 12px;
     font-weight: 400;
+    font-size: 110%;
+    color: white;
+    text-align: center;
 }
 .user-content{
     padding: 10px;

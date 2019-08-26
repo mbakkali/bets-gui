@@ -26,12 +26,24 @@ export class MenuService {
                 horizontalMenuItem.badgeCount = horizontalMenuItem.badgeCount + 1;
             }
         }
+
+        for (let verticalMenuItem of verticalMenuItems) {
+            if (verticalMenuItem.routerLink == '/cart') {
+                verticalMenuItem.badgeCount = verticalMenuItem.badgeCount + 1;
+            }
+        }
     }
 
     decreaseBadgeForMenuBets() {
         for (let horizontalMenuItem of horizontalMenuItems) {
             if (horizontalMenuItem.routerLink == '/cart') {
-                horizontalMenuItem.badgeCount = horizontalMenuItem.badgeCount + -1;
+                horizontalMenuItem.badgeCount = horizontalMenuItem.badgeCount -1;
+            }
+        }
+
+        for (let verticalMenuItem of verticalMenuItems) {
+            if (verticalMenuItem.routerLink == '/cart') {
+                verticalMenuItem.badgeCount = verticalMenuItem.badgeCount -1;
             }
         }
     }
@@ -88,6 +100,12 @@ export class MenuService {
         for (let horizontalMenuItem of horizontalMenuItems) {
             if (horizontalMenuItem.routerLink == '/cart') {
                 horizontalMenuItem.badgeCount = newValue;
+            }
+        }
+
+        for (let verticalMenuItem of verticalMenuItems) {
+            if (verticalMenuItem.routerLink == '/cart') {
+                verticalMenuItem.badgeCount = newValue;
             }
         }
     }

@@ -8,12 +8,9 @@
                 <div fxLayout="row" fxLayoutAlign="center center">                    
                     <button *ngIf="settings.menu == 'vertical'" mat-icon-button (click)="toggleSidenav()">
                         <mat-icon>menu</mat-icon>
-                    </button> 
-                    <button fxShow="false" fxShow.gt-xs *ngIf="settings.menu == 'vertical'" mat-icon-button (click)="settings.sidenavUserBlock = !settings.sidenavUserBlock">
-                        <mat-icon>person</mat-icon>
-                    </button> 
-                    <a *ngIf="settings.menu == 'horizontal'" mat-raised-button color="accent" routerLink="/" (click)="closeSubMenus()" class="small-logo"><fa-icon icon="futbol"></fa-icon></a>
-                    <a *ngIf="settings.menu == 'horizontal'" class="logo" routerLink="/" (click)="closeSubMenus()">PARIS SPORTIFS</a>
+                    </button>
+                    <div *ngIf="settings.menu == 'horizontal'" routerLink="/" (click)="closeSubMenus()"><img style="height: auto;width: auto;max-height: 60px;max-width: 100px;" src="../../assets/logo-white.png"></div>
+                    <a *ngIf="settings.menu == 'horizontal'" class="logo">PARIS SPORTIFS</a>
                 </div>            
                 <div fxLayout="row" fxLayoutAlign="end center">
 
@@ -31,7 +28,7 @@
                     <!--<app-flags-menu fxShow="false" fxShow.gt-sm></app-flags-menu>-->
                     <app-fullscreen matTooltip="Plein écran"></app-fullscreen>
                     <!--<app-applications fxShow="false" fxShow.gt-sm></app-applications>-->
-                    <app-messages matTooltip="Notifications" fxShow="false" fxShow.gt-xs></app-messages>
+                    <!--<app-messages matTooltip="Notifications" fxShow="false" fxShow.gt-xs></app-messages>-->
                     <app-user-menu matTooltip="Utilisateur" (triggerOptions)="displayOptionsSidebar()"></app-user-menu>
 
                 </div>

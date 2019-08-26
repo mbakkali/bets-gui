@@ -7,7 +7,7 @@
         <mat-toolbar color="primary">
             <div fxLayout="row" fxLayoutAlign="space-around center" class="user-info">
                 <img [src]="userImage" alt="user-image" width="80" class="rounded mat-elevation-z6">
-                <p>Mehdi<br> <small>Administrateur</small></p>
+                <p>Kenny<br> <small>Administrateur</small></p>
             </div>  
         </mat-toolbar>
     <!--    <a mat-menu-item routerLink="/profile/projects">
@@ -20,9 +20,9 @@
         </a>-->
         <a mat-menu-item (click)="triggerOptions.emit()">
             <mat-icon>settings</mat-icon>
-            <span>Settings</span> 
+            <span>Paramètres </span>
         </a>
-        <a mat-menu-item routerLink="/"> 
+        <a mat-menu-item routerLink="/stats">
             <mat-icon>show_chart</mat-icon>
             <span>Statistiques</span>
         </a>
@@ -30,10 +30,10 @@
             <mat-icon>help</mat-icon>
             <span>Help</span> 
         </a>-->
-        <div class="divider"></div>
+       <!-- <div class="divider"></div>
         <a mat-menu-item routerLink="/login"> 
             <mat-icon>power_settings_new</mat-icon>
             <span>Log out</span> 
-        </a>
+        </a>-->
     <!--</span>-->
 </mat-menu>

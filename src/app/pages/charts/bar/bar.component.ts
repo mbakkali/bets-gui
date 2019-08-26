@@ -25,7 +25,8 @@ export class BarComponent {
 
   constructor(public appSettings:AppSettings) {
     this.settings = this.appSettings.settings; 
-    Object.assign(this, {single, multi}); 
+    Object.assign(this, {single, multi});
+    console.log(this.single)
   }
   
   public onSelect(event) {

@@ -1,0 +1,109 @@
+<div class="row" *ngIf="bets && bets.data.length ==0" fxLayout="column" fxLayoutAlign="center center"
+     style="text-align: center; padding-top: 100px">
+    <div>
+        <div style="color: #283593;">
+            <mat-icon style="font-size: 70px;margin-right: 35px;">mood_bad</mat-icon>
+        </div>
+        <h5>Aucun pari enregistré</h5>
+    </div>
+</div>
+
+<div style="padding: 20px">
+
+
+    <div *ngIf="!bets" fxLayout="column" fxLayoutAlign="center center" style="text-align: center;margin-top: 30px">
+        <app-spinner [message]="'Chargement des paris'"></app-spinner>
+    </div>
+
+    <div *ngIf="bets != null">
+        <div fxLayout="column" fxLayoutAlign="center center">
+            <div class="card"
+                 style="width: 300px;text-align: center; padding: 10px; margin-bottom: 30px;box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);">
+                <mat-form-field style="margin-right: 15px">
+                    <mat-label>Filtrer par ticket</mat-label>
+                    <mat-placeholder>Ticket</mat-placeholder>
+                    <input (keyup)="applyFilter($event.target.value)" autocomplete="off" type="number" matInput>
+                </mat-form-field>
+
+            </div>
+        </div>
+        <div class="example-container mat-elevation-z8">
+            <table mat-table matSort [dataSource]="bets">
+
+                <!-- Id Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> No. de pari</th>
+                    <td mat-cell *matCellDef="let element"> {{element.ownerId}} </td>
+                </ng-container>
+
+                <!-- TeamA Column -->
+                <ng-container matColumnDef="teamA">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Equipe A</th>
+                    <td mat-cell *matCellDef="let element">
+                        <span *ngIf="element.teamA">{{element.teamA}}</span>
+                        <span *ngIf="!element.teamA" style="color: darkred;font-weight: lighter;font-style: italic">Match supprimé</span>
+                    </td>
+                </ng-container>
+
+                <!-- TeamB Column -->
+                <ng-container matColumnDef="teamB">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Equipe B</th>
+                    <td mat-cell *matCellDef="let element">
+                        <span *ngIf="element.teamB">{{element.teamB}}</span>
+                        <span *ngIf="!element.teamB" style="color: darkred;font-weight: lighter;font-style: italic">Match supprimé</span>
+                    </td>
+                </ng-container>
+
+                <!-- Amount Column -->
+                <ng-container matColumnDef="gametime">
+                    <th mat-header-cell *matHeaderCellDef> Date du match</th>
+                    <td mat-cell *matCellDef="let element">
+                        <span *ngIf="element.gametime">{{element.gametime | date:"dd/MM/yy HH:mm"}}</span>
+                        <span *ngIf="!element.gametime" style="color: darkred;font-weight: lighter;font-style: italic">Match supprimé</span>
+                    </td>
+                </ng-container>
+
+                <!-- Choice Column -->
+                <ng-container matColumnDef="betChoice">
+                    <th mat-header-cell *matHeaderCellDef> Choix</th>
+                    <td mat-cell *matCellDef="let element"> {{element.betChoice}} </td>
+                </ng-container>
+
+                <!-- Choice Column -->
+                <ng-container matColumnDef="odd">
+                    <th mat-header-cell *matHeaderCellDef> Cote</th>
+                    <td mat-cell *matCellDef="let element">
+                        <span *ngIf="element.betChoice === 'A'">{{element.oddA | number: ".2-2"}}</span>
+                        <span *ngIf="element.betChoice === 'B'">{{element.oddB | number: ".2-2"}}</span>
+                        <span *ngIf="element.betChoice === 'N'">{{element.oddN | number: ".2-2"}}</span>
+                    </td>
+                </ng-container>
+
+                <!-- Amount Column -->
+                <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Mise</th>
+                    <td mat-cell *matCellDef="let element"> {{element.amount | number: ".2-2"}}  €</td>
+                </ng-container>
+
+
+                <!-- Amount Column -->
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Mise</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button (click)="onDeleteBet(element)" mat-mini-fab color="warn" class="m-1">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                        <button (click)="onViewBet(element)" mat-mini-fab color="primary" class="m-1">
+                            <mat-icon>remove_red_eye</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </div>
+
+</div>

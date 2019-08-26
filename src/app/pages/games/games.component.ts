@@ -66,10 +66,16 @@ export class GamesComponent implements OnInit {
     }
 
     public updateGame(user: Game) {
-        this.betService.updateGame(user).subscribe((user: Game) => {
-            console.log('Modifed game', user);
-            this.notifications.open('Match ' + user.teamA + '/' + user.teamB + ' modifié', null, {duration: 2000,});
-            this.getGames();
+        this.betService.updateGame(user).subscribe((modifiedGame: Game) => {
+            console.log('Modifed game', modifiedGame);
+            this.notifications.open('Match ' + modifiedGame.teamA + '/' + modifiedGame.teamB + ' modifié', null, {duration: 2000,});
+            this.betService.games.forEach(value => {
+                if(this.betService.games.has(modifiedGame.id)){
+                    this.betService.games.set(modifiedGame.id,modifiedGame);
+                }
+            });
+            this.games = this.betService.getGames();
+
         });
     }
 
@@ -78,24 +84,12 @@ export class GamesComponent implements OnInit {
             console.log('Modifed game', user);
             this.notifications.open('Match ' + user.teamA + '/' + user.teamB + ' supprimé', null, {duration: 2000,});
             this.betService.games.forEach(value => {
-                if(!this.betService.games.has(value.id)){
+                if(this.betService.games.has(value.id)){
                     this.betService.games.delete(user.id);
                 }
             });
             this.games = this.betService.getGames();
         });
-    }
-
-
-    public onPageChanged(event) {
-        this.page = event;
-        this.getGames();
-        if (this.settings.fixedHeader) {
-            document.getElementById('main-content').scrollTop = 0;
-        }
-        else {
-            document.getElementsByClassName('mat-drawer-content')[0].scrollTop = 0;
-        }
     }
 
     public openNewGameDialog(user) {
@@ -182,10 +176,4 @@ export class GamesComponent implements OnInit {
         }
     }
 
-
-    onStyle(game: Game) {
-        if(game != null &&  game.checked == true){
-            return '{border: solid yellowgreen;background-color: white}'
-        }
-    }
 }
