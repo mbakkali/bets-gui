@@ -27,3 +27,11 @@ $material-icons-font-path: '~material-icons/iconfont/';
     background-size: cover;
   }
 }
+@mixin theme-reset($theme) {
+  $primary: map-get($theme, primary);
+
+  .bg-primary {
+    @include _mat-toolbar-color($primary);
+  }
+
+}

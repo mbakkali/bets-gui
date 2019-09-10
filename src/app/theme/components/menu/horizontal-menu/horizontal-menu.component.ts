@@ -4,6 +4,7 @@ import { AppSettings } from '../../../../app.settings';
 import { Settings } from '../../../../app.settings.model';
 import { MenuService } from '../menu.service';
 import { MatMenuTrigger } from '@angular/material';
+import {Menu} from '../menu.model';
 
 @Component({
   selector: 'app-horizontal-menu',
@@ -14,14 +15,22 @@ import { MatMenuTrigger } from '@angular/material';
 })
 export class HorizontalMenuComponent implements OnInit {
   @Input('menuParentId') menuParentId;
-  public menuItems:Array<any>;
+  public menuItems:Array<Menu>;
   public settings: Settings;
   @ViewChild(MatMenuTrigger, { static: false }) trigger: MatMenuTrigger;
-  constructor(public appSettings:AppSettings, public menuService:MenuService, public router:Router) { 
+  constructor(public appSettings:AppSettings, private menuService:MenuService, public router:Router) {
     this.settings = this.appSettings.settings;
   }
 
   ngOnInit() {
+   this.updateMenu();
+   this.menuService.badgeEmitter.subscribe(() => {
+     this.updateMenu();
+    })
+
+  }
+
+  updateMenu(){
     this.menuItems = this.menuService.getHorizontalMenuItems();
     this.menuItems = this.menuItems.filter(item => item.parentId == this.menuParentId);
   }

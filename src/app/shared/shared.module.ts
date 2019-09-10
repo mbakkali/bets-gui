@@ -35,6 +35,7 @@ import {
     MatStepperModule, MatBadgeModule
 } from '@angular/material';
 import { SpinnerComponent } from './spinner/spinner.component';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   imports: [
@@ -107,7 +108,9 @@ import { SpinnerComponent } from './spinner/spinner.component';
         MatTooltipModule,
         MatStepperModule,
         MatBadgeModule,
-        SpinnerComponent
+        SpinnerComponent,
+        FontAwesomeModule
+
     ],
   declarations: [SpinnerComponent]
 })

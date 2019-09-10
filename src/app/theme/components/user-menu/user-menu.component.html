@@ -7,7 +7,7 @@
         <mat-toolbar color="primary">
             <div fxLayout="row" fxLayoutAlign="space-around center" class="user-info">
                 <img [src]="userImage" alt="user-image" width="80" class="rounded mat-elevation-z6">
-                <p>Kenny<br> <small>Administrateur</small></p>
+                <p>{{getUserName()}}<br> <small>{{getUserRole()}}</small></p>
             </div>  
         </mat-toolbar>
     <!--    <a mat-menu-item routerLink="/profile/projects">
@@ -22,7 +22,7 @@
             <mat-icon>settings</mat-icon>
             <span>Paramètres </span>
         </a>
-        <a mat-menu-item routerLink="/stats">
+        <a mat-menu-item routerLink="/stats" *ngIf="isUserAdmin()">
             <mat-icon>show_chart</mat-icon>
             <span>Statistiques</span>
         </a>
@@ -30,10 +30,10 @@
             <mat-icon>help</mat-icon>
             <span>Help</span> 
         </a>-->
-       <!-- <div class="divider"></div>
-        <a mat-menu-item routerLink="/login"> 
+        <div class="divider"></div>
+        <a mat-menu-item (click)="logOut()">
             <mat-icon>power_settings_new</mat-icon>
-            <span>Log out</span> 
-        </a>-->
+            <span>Déconnexion</span>
+        </a>
     <!--</span>-->
 </mat-menu>

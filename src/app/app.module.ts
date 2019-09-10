@@ -38,7 +38,18 @@ import {ApplicationsComponent} from './theme/components/applications/application
 import {MessagesComponent} from './theme/components/messages/messages.component';
 import {UserMenuComponent} from './theme/components/user-menu/user-menu.component';
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {faChartArea, faChartPie, faCoffee, faCog, faFutbol, faPlus, faSearch, faTimes, faTrash} from '@fortawesome/free-solid-svg-icons';
+import {
+    faChartArea,
+    faChartPie,
+    faCoffee,
+    faCog, faEye,
+    faEyeSlash,
+    faFutbol,
+    faPlus,
+    faSearch,
+    faTimes,
+    faTrash
+} from '@fortawesome/free-solid-svg-icons';
 import {faList} from '@fortawesome/free-solid-svg-icons/faList';
 import {faHome} from '@fortawesome/free-solid-svg-icons/faHome';
 import {faCircleNotch} from '@fortawesome/free-solid-svg-icons/faCircleNotch';
@@ -52,7 +63,7 @@ import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-mome
 import localeFr from '@angular/common/locales/fr';
 import {registerLocaleData} from '@angular/common';
 import {BetsService} from './pages/bet-cart/bets.service';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {SimpleBetComponent} from './pages/bet-cart/simple-bet/simple-bet.component';
 import {BetComponent} from './pages/bet-cart/bet/bet.component';
 import {NgxPrintModule} from 'ngx-print';
@@ -60,6 +71,12 @@ import {BetInvoiceComponent} from './pages/bet-cart/bet/bet-invoice/bet-invoice.
 import {BetDetailComponent, PreviewTicketDialog} from './pages/bet-cart/bet/bet-detail/bet-detail.component';
 import {BetListComponent, BetListDeleteDialog} from './pages/bet-list/bet-list.component';
 import { BetSubListComponent } from './pages/bet-cart/bet/bet-sub-list/bet-sub-list.component';
+import {LoginModule} from './pages/login/login.module';
+import {AuthenticationInterceptorService} from './authentication-interceptor.service';
+import {AuthenticationService} from './authentication.service';
+import {AuthenticationGuardService} from './authentication-guard.service';
+import {UserListComponent, UserListDialog} from './pages/user-list/user-list.component';
+import {UserService} from './pages/user-list/user.service';
 
 registerLocaleData(localeFr);
 
@@ -82,7 +99,8 @@ registerLocaleData(localeFr);
         routing,
         FontAwesomeModule,
         HttpClientModule,
-        NgxPrintModule
+        NgxPrintModule,
+        LoginModule
     ],
     declarations: [
         AppComponent,
@@ -108,15 +126,19 @@ registerLocaleData(localeFr);
         BetListComponent,
         BetListDeleteDialog,
         PreviewTicketDialog,
-        BetSubListComponent
+        UserListDialog,
+        BetSubListComponent,
+        UserListComponent
     ],
     entryComponents: [
         VerticalMenuComponent,
         BetListDeleteDialog,
-        PreviewTicketDialog
+        PreviewTicketDialog,
+        UserListDialog
     ],
     providers: [
-        AppSettings, BetsService, HttpClient,
+        AppSettings, BetsService,UserService, HttpClient, AuthenticationService, AuthenticationGuardService,
+        {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptorService, multi : true},
         {provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG},
         {provide: OverlayContainer, useClass: CustomOverlayContainer},
         {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
@@ -149,5 +171,7 @@ export class AppModule {
         library.add(faSearch);
         library.add(faTimes);
         library.add(faClock);
+        library.add(faEyeSlash);
+        library.add(faEye);
     }
 }

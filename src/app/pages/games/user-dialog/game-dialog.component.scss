@@ -27,3 +27,8 @@
     justify-items: stretch;
     align-items: stretch;
 }
+
+
+.mat-spinner-color::ng-deep circle{
+    stroke: #FFFFFF !important;
+}

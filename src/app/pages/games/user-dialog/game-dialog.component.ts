@@ -22,6 +22,7 @@ export class GameDialogComponent implements OnInit {
     options: Team[] = europe;
     date : Date;
     time : string;
+    isLoading: boolean;
 
     constructor(public dialogRef: MatDialogRef<GameDialogComponent>,
                 @Inject(MAT_DIALOG_DATA) public game: Game,

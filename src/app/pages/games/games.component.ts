@@ -7,6 +7,7 @@ import {GameDialogComponent} from './user-dialog/game-dialog.component';
 import * as moment from 'moment';
 import {MenuService} from '../../theme/components/menu/menu.service';
 import {BetsService} from '../bet-cart/bets.service';
+import {AuthenticationService} from '../../authentication.service';
 
 @Component({
     selector: 'app-users',
@@ -15,7 +16,7 @@ import {BetsService} from '../bet-cart/bets.service';
     encapsulation: ViewEncapsulation.None})
 export class GamesComponent implements OnInit {
     public games: Game[];
-    public searchText: string;
+    public searchText: string = "";
     public page: any;
     public settings: Settings;
     showPassedGames = false;
@@ -24,8 +25,13 @@ export class GamesComponent implements OnInit {
                 public dialog: MatDialog,
                 public notifications: MatSnackBar,
                 private menuService : MenuService,
-                private betService : BetsService) {
+                private betService : BetsService,
+                private authService : AuthenticationService) {
         this.settings = this.appSettings.settings;
+    }
+
+    isUserAdmin(){
+        return this.authService.isUserAdmin();
     }
 
     ngOnInit() {

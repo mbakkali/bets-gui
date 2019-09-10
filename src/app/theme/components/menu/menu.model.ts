@@ -7,5 +7,6 @@ export class Menu {
                 public target: string,
                 public hasSubMenu: boolean,
                 public parentId: number,
-                public badgeCount? : number) { }
+                public badgeCount? : number,
+                public onlyAdmin? : boolean) { }
 } 

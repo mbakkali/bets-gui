@@ -1,4 +1,6 @@
-<h1 mat-dialog-title><span *ngIf="game == null">Ajouter</span><span *ngIf="game != null && game.id">Modifier</span> un match</h1>
+<h1 mat-dialog-title>
+    <span *ngIf="game == null"><mat-icon style="vertical-align: middle; margin-right: 5px">add_box</mat-icon>Ajouter</span>
+    <span *ngIf="game != null && game.id"><mat-icon style="vertical-align: middle; margin-right: 5px">edit</mat-icon>Modifier</span> un match</h1>
 <div mat-dialog-content>
     <form [formGroup]="gameForm" class="user-form" #userFormRef="ngForm"
           (ngSubmit)="onSubmit(userFormRef)">
@@ -61,12 +63,6 @@
                     <div class="bi-form">
 
                     <mat-form-field appearance="outline">
-
-                  <!--      <label>Date Time(via reactive form):</label>
-                        <input [formControl]="selectedMoment2"
-                               [owlDateTimeTrigger]="dtPicker2" [owlDateTime]="dtPicker2">
-                        <owl-date-time #dtPicker2></owl-date-time>-->
-
                         <input autocomplete="off"
                                 matInput
                                 [(ngModel)]="date"

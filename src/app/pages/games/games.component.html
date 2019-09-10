@@ -1,7 +1,7 @@
 <div fxLayout="row" fxLayoutAlign="space-between center" class="flex-p">
     <div fxLayout="row">
         <mat-button-toggle-group #controls="matButtonToggleGroup" appearance="legacy">
-            <mat-button-toggle value="add" (click)="openNewGameDialog(null)">
+            <mat-button-toggle *ngIf="isUserAdmin()" value="add" (click)="openNewGameDialog(null)">
                 <fa-icon style="font-size: 150%" icon="calendar-plus"></fa-icon>
             </mat-button-toggle>
             <mat-button-toggle value="search">
@@ -20,6 +20,15 @@
         </div>
 </div>
 
+<div class="row" *ngIf="filteredGames().length == 0" fxLayout="column" fxLayoutAlign="center center" style="text-align: center; padding-top: 100px">
+    <div>
+        <div style="color: #283593;">
+            <mat-icon style="font-size: 70px;margin-right: 35px;">mood_bad</mat-icon>
+        </div>
+        <h5>Aucun match en cours</h5>
+    </div>
+</div>
+
 <div fxLayout="row wrap">
     <div *ngFor="let game of filteredGames() | UserSearchPipe : searchText; let i=index"
          fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50" class="flex-p">
@@ -27,7 +36,7 @@
             <mat-card-header style="background-color: #283593" class="p-0" fxLayout="row" fxLayoutAlign="space-between center">
                 <img style="max-width: 50px" mat-card-avatar src="assets/football.png"/>
                 <h6 class="user-name game-title">{{game.teamA}} - {{game.teamB}}</h6>
-                <button style="color: white" mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger">
+                <button *ngIf="isUserAdmin()" style="color: white" mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger">
                     <mat-icon>settings</mat-icon>
                 </button>
             </mat-card-header>
