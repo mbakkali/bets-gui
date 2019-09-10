@@ -32,8 +32,8 @@
 <div fxLayout="row wrap">
     <div *ngFor="let game of filteredGames() | UserSearchPipe : searchText; let i=index"
          fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50" class="flex-p">
-        <mat-card class="p-0">
-            <mat-card-header style="background-color: #283593" class="p-0" fxLayout="row" fxLayoutAlign="space-between center">
+        <mat-card class="p-0 ">
+            <mat-card-header class="bg-primary"  fxLayout="row" fxLayoutAlign="space-between center">
                 <img style="max-width: 50px" mat-card-avatar src="assets/football.png"/>
                 <h6 class="user-name game-title">{{game.teamA}} - {{game.teamB}}</h6>
                 <button *ngIf="isUserAdmin()" style="color: white" mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger">
@@ -58,7 +58,7 @@
                     <mat-button-toggle [disabled]="isGameBlocked(game) || isGameEnded(game)"
                                        [checked]="game.checked && game.choice === 'A'"
                                        (change)="onAChange(game)">
-                        <span style="font-weight: bold;color: #283593">{{game.oddA | number: ".2-2"}}</span><mat-icon>arrow_right</mat-icon>
+                        <span class="bg-primary bet-label">{{game.oddA | number: ".2-2"}}</span><mat-icon>arrow_right</mat-icon>
                         <span style="font-weight: bold">{{game.teamA}}</span>
                     </mat-button-toggle>
 
@@ -71,7 +71,7 @@
                                        [checked]="game.checked && game.choice === 'B'"
                                        (change)="onBChange(game)"
                                        >
-                        <span style="font-weight: bold;color: #283593;">{{game.oddB | number: ".2-2"}}</span><mat-icon>arrow_right</mat-icon>
+                        <span class="bg-primary bet-label">{{game.oddB | number: ".2-2"}}</span><mat-icon>arrow_right</mat-icon>
                         <span style="font-weight: bold;">{{game.teamB}}</span>
                     </mat-button-toggle>
                 </div>
@@ -83,7 +83,7 @@
                     <mat-button-toggle [disabled]="isGameBlocked(game) || isGameEnded(game)"
                                        [checked]="game.checked && game.choice === 'N'"
                                        (change)="onNChange(game)">
-                        <span style="font-weight: bold;color: #283593;font-size: 90%">{{game.oddN | number: ".2-2"}}</span><mat-icon>arrow_right</mat-icon>
+                        <span style="font-size: 80%" class="bg-primary bet-label"> {{game.oddN | number: ".2-2"}}</span><mat-icon>arrow_right</mat-icon>
                         <span style="font-weight: bold;font-size: 90%">Match nul</span>
                     </mat-button-toggle>
                 </div>

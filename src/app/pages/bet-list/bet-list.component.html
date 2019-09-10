@@ -1,7 +1,7 @@
 <div class="row" *ngIf="bets && bets.data.length ==0" fxLayout="column" fxLayoutAlign="center center"
      style="text-align: center; padding-top: 100px">
     <div>
-        <div style="color: #283593;">
+        <div class="primary-color">
             <mat-icon style="font-size: 70px;margin-right: 35px;">mood_bad</mat-icon>
         </div>
         <h5>Aucun pari enregistré</h5>
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="example-container mat-elevation-z8">
-            <table mat-table matSort [dataSource]="bets">
+            <table mat-table matSort [dataSource]="bets" style="width: 100%">
 
                 <!-- Id Column -->
                 <ng-container matColumnDef="id">

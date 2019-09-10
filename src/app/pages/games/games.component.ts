@@ -60,7 +60,7 @@ export class GamesComponent implements OnInit {
                 }
             });
             this.games = this.betService.getGames();
-        });
+        },error => alert("Serveur indisponible"));
     }
 
     public addGame(user: Game) {
