@@ -11,14 +11,9 @@ phases:
       - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
       - dpkg -i google-chrome*.deb
       - npm install -g @angular/cli
-      - apt-get install awscli
   pre_build:
     commands:
       - npm install
   build:
     commands:
       - npm run build:prod
-      #- npm run test:ci
-  post_build:
-    commands:
-      - aws s3 sync ./dist s3://bets-gui-bucket --acl 'public-read' --delete
