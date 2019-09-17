@@ -5,7 +5,6 @@
 export const environment = {
   production: false,
   url: "https://anceom.com:8081/bets-api/"
-  //url : "https://localhost:8081/bets-api"
 };
 
 /*
