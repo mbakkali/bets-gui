@@ -19,4 +19,9 @@ phases:
       - npm run build
   post_build:
     commands:
-      - aws s3 cp ./dist s3://bets-gui-bucket --recursive --acl public-read --cache-control
+      - aws s3 sync ./dist s3://bets-gui-bucket --recursive --acl public-read --cache-control --delete
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'dist*'
+  discard-paths: yes
