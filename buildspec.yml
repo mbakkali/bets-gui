@@ -16,7 +16,7 @@ phases:
       - npm install
   build:
     commands:
-      - npm run build:prod
+      - npm run build
   post_build:
     commands:
-      - aws s3 sync
+      - aws s3 sync ./dist s3://bets-gui-bucket --acl 'public-read' --delete
