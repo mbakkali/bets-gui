@@ -84,7 +84,7 @@ export class BetsService {
     }
 
     deleteOwnerBets(id: number) {
-        return this.http.delete(this.url + "/bets/delete/user/" + id);
+        return this.http.delete(this.url + "bets/delete/user/" + id);
     }
 
 
