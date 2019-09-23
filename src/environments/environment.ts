@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: "https://anceom.com:8081/bets-api/"
+  url: "https://api.parishaitiens.com:8081/bets-api/"
 };
 
 /*
