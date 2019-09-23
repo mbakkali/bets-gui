@@ -1,3 +1,3 @@
 export const environment = {
   production: true,
-  url: "https://api.parishaitiens.com:8081/bets-api/"};
+  url: "https://api.parishaitiens.com:8080/bets-api/"};
