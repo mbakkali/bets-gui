@@ -1,8 +1,8 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../environments/environment';
-import {User} from './shared/user.model';
 import {map} from 'rxjs/operators';
+import {User} from './pages/user-list/user.model';
 
 @Injectable({
     providedIn: 'root'
@@ -23,11 +23,11 @@ export class AuthenticationService {
         return this.httpClient.get<User>(this.url + 'validateLogin/' + btoa(username + ':' + password)).pipe(
             map(
                 userData => {
-                    if (userData.status == 'OK') {
+                    if (userData.username != null) {
                         sessionStorage.setItem('username', username);
                         let authString = 'Basic ' + btoa(username + ':' + password);
                         sessionStorage.setItem('basicauth', authString);
-                        sessionStorage.setItem('role', userData.role);
+                        sessionStorage.setItem('roles', JSON.stringify(userData.roles));
                         this.authChanged.emit();
                         return userData;
                     } else {
@@ -47,16 +47,16 @@ export class AuthenticationService {
 
 
     isUserAdmin():boolean {
-        let role = sessionStorage.getItem('role');
-        return role != null && role == "ADMIN";
+        let roles = sessionStorage.getItem('roles');
+        return roles != null && JSON.parse(roles).includes("ROLE_ADMIN");
     }
 
-    getUserRole():string {
-        let role = sessionStorage.getItem('role');
-        if(role != null){
-            return role;
+    getUserRoles():string[] {
+        let roles = JSON.parse(sessionStorage.getItem('roles'));
+        if(roles != null){
+            return roles;
         }else {
-            return "NO_ROLE"
+            return []
         }
     }
 
@@ -70,7 +70,7 @@ export class AuthenticationService {
     logOut() {
         sessionStorage.removeItem('username');
         sessionStorage.removeItem('basicauth');
-        sessionStorage.removeItem('role');
+        sessionStorage.removeItem('roles');
         this.authChanged.emit();
     }
 

@@ -5,6 +5,10 @@
         <app-spinner [message]="'Chargement des utilisateurs'"></app-spinner>
     </div>
 
+    <div fxLayout="column" fxLayoutAlign="center center" style="padding: 20px">
+            <button mat-raised-button color="primary" (click)="onSubmitBet()">Ajouter un utilisateur</button>
+    </div>
+
     <div *ngIf="users != null">
         <div fxLayout="column" fxLayoutAlign="center center" *ngIf="users != null && users.data.length > 10">
             <div class="card"
@@ -21,27 +25,21 @@
             <table mat-table matSort [dataSource]="users" style="width: 100%">
 
                 <!-- Id Column -->
-                <ng-container matColumnDef="userName">
+                <ng-container matColumnDef="username">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Login</th>
-                    <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.username}} </td>
                 </ng-container>
 
-                <!-- password -->
-                <ng-container matColumnDef="password">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Mot de passe</th>
-                    <td mat-cell *matCellDef="let element">
-                        <input  disabled="true" type="password" [type]="element.showPasssword ? 'text' : 'password'" [ngModel]="element.password"/>
-                        <fa-icon style="cursor: pointer" *ngIf="!element.showPasssword" (click)="onShowPassword(element)" icon="eye"></fa-icon>
-                        <fa-icon style="cursor: pointer" *ngIf="element.showPasssword" (click)="onShowPassword(element)" icon="eye-slash"></fa-icon>
-                    </td>
-                </ng-container>
 
-                <!-- Role -->
-                <ng-container matColumnDef="role">
+                <!-- Roles -->
+                <ng-container matColumnDef="roles">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Rôle</th>
                     <td mat-cell *matCellDef="let element">
-                        <span *ngIf="element.role === 'ADMIN'" class="badge badge-success">{{element.role}}</span>
-                        <span *ngIf="element.role === 'USER'" class="badge badge-info">{{element.role}}</span>
+                        <div *ngFor="let role of element.roles">
+                            <span *ngIf="role === 'ROLE_ADMIN'" class="badge badge-success">{{role}}</span>
+                            <span *ngIf="role === 'ROLE_USER'" class="badge badge-info">{{role}}</span>
+                        </div>
+
                     </td>
                 </ng-container>
 

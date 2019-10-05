@@ -23,7 +23,7 @@ export class LoginComponent {
         this.settings = this.appSettings.settings;
         this.form = this.fb.group({
             'username': [null, Validators.compose([Validators.required])],
-            'password': [null, Validators.compose([Validators.required, Validators.minLength(6)])]
+            'password': [null, Validators.compose([Validators.required])]
         });
     }
 
@@ -46,7 +46,7 @@ export class LoginComponent {
             this.isLogging = false;
             this.succesLog = true;
             setTimeout(() => {
-                if (data.status == 'OK') {
+                if (data.username != null) {
                     this.router.navigate(['/games']);
                     this.invalidLogin = false;
                 } else {

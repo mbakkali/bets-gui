@@ -1,8 +1,4 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {environment} from '../environments/environment';
-import {User} from './shared/user.model';
-import { map } from 'rxjs/operators';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {AuthenticationService} from './authentication.service';
 

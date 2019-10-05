@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
 export class UserMenuComponent implements OnInit {
     @Output() triggerOptions = new EventEmitter();
 
-    public userImage = '../assets/football.png';
+    public userImage = '../assets/ball-animated.gif';
 
     constructor(private authService: AuthenticationService, private router: Router) {
     }
@@ -28,8 +28,8 @@ export class UserMenuComponent implements OnInit {
         return this.authService.isUserAdmin();
     }
 
-    getUserRole() {
-        return this.authService.getUserRole();
+    getUserRoles() {
+        return this.authService.getUserRoles();
     }
 
     getUserName(){

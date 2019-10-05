@@ -1,7 +1,7 @@
 export interface User {
-  userName: string;
+  username: string;
   password: string;
-  role: string;
+  roles: string[];
   status?: string;
   showPasssword? : boolean;
 }

@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, FormGroupDirective, Validators} from '@angular/f
 import {Game} from '../games/game.model';
 import {UserService} from './user.service';
 import {User} from './user.model';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
     selector: 'app-user-list',
@@ -19,7 +20,7 @@ export class UserListComponent implements OnInit {
 
     @ViewChild(MatSort, {static: true}) sort: MatSort;
     users: MatTableDataSource<User>;
-    displayedColumns = ['userName', 'password', 'role','action'];
+    displayedColumns = ['username', 'roles','action'];
     input;
 
     constructor(private userService: UserService,
@@ -51,11 +52,11 @@ export class UserListComponent implements OnInit {
     }
 
     onDeleteUser(user: User) {
-        this.userService.deleteUser(user.userName).subscribe(() => {
-            this.notifications.open('Utilisateur ' + user.userName + ' supprimé', null, {duration: 2000,});
+        this.userService.deleteUser(user.username).subscribe(() => {
+            this.notifications.open('Utilisateur ' + user.username + ' supprimé', null, {duration: 2000,});
             this.getUsers();
-        }, error => {
-            this.notifications.open('Problème lors de la suppression de l\'utilisateur', null, {duration: 2000,});
+        }, (error : HttpErrorResponse) => {
+            this.notifications.open('Problème lors de la suppression de l\'utilisateur : + \n' + JSON.stringify(error.error), null, {duration: 4000,});
         });
 
     }
@@ -81,9 +82,9 @@ export class UserListComponent implements OnInit {
     }
 
     public deleteUser(user: User) {
-        this.userService.deleteUser(user.userName).subscribe(() => {
+        this.userService.deleteUser(user.username).subscribe(() => {
             console.log('Modifed game', user);
-            this.notifications.open('Match ' + user.password + '/' + user.role + ' supprimé', null, {duration: 2000,});
+            this.notifications.open('Match ' + user.password + '/' + user.roles + ' supprimé', null, {duration: 2000,});
             this.getUsers();
         });
     }
@@ -95,6 +96,7 @@ export class UserListComponent implements OnInit {
   onShowPassword(element: User) {
     element.showPasssword = !element.showPasssword;
   }
+
 }
 
 
@@ -108,10 +110,10 @@ export class UserListDialog {
     isLoading: boolean;
 
     constructor(public dialogRef: MatDialogRef<UserListDialog>,
-                @Inject(MAT_DIALOG_DATA) public game: User,
+                @Inject(MAT_DIALOG_DATA) public user: User,
                 public fb: FormBuilder) {
         this.userForm = this.fb.group({
-            userName: null,
+            username: null,
             password: [null, Validators.compose([Validators.required, Validators.minLength(6)])],
             role: [null, Validators.compose([Validators.required, Validators.minLength(3)])],
 
@@ -119,9 +121,8 @@ export class UserListDialog {
     }
 
     ngOnInit() {
-        if (this.game) {
-
-            this.userForm.patchValue({...this.game});
+        if (this.user) {
+            this.userForm.setValue({role : this.user.roles[0], username : this.user.username, password : null})
         } else {
 
         }
@@ -135,16 +136,16 @@ export class UserListDialog {
 
         if (this.userForm.valid) {
             const data: User = {
-                userName: null,
+                username: null,
                 password: this.userForm.get('password').value,
-                role: this.userForm.get('role').value,
+                roles: [this.userForm.get('role').value],
             };
 
 
-            if (data.userName) {
-                data.userName = this.userForm.get('userName').value;
+            if (data.username) {
+                data.username = this.userForm.get('username').value;
             }
-            this.game = data;
+            this.user = data;
 
             userFormRef.resetForm();
             this.userForm.reset();

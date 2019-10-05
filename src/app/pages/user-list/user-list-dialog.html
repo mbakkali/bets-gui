@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>
-    <span *ngIf="game == null"><mat-icon
+    <span *ngIf="user == null"><mat-icon
             style="vertical-align: middle; margin-right: 5px">add_box</mat-icon>Ajouter</span>
-    <span *ngIf="game != null && game.userName"><mat-icon
+    <span *ngIf="user != null && user.username"><mat-icon
             style="vertical-align: middle; margin-right: 5px">edit</mat-icon>Modifier</span> un utilisateur
 </h1>
 <div mat-dialog-content>
@@ -10,30 +10,21 @@
         <div fxLayout="column" class="form-field-outer">
 
 
-            <mat-form-field class="w-100" appearance="outline" *ngIf="game == null">
+            <mat-form-field class="w-100" appearance="outline" *ngIf="user == null">
                 <mat-label>
                     Login
                 </mat-label>
-                <input autocomplete="off" matInput formControlName="userName" required>
-                <mat-error *ngIf="userForm.controls.userName.errors?.required"></mat-error>
-                <mat-error *ngIf="userForm.controls.userName.hasError('minlength')">Nom trop long</mat-error>
+                <input type="password" autocomplete="off" matInput formControlName="username" required>
+                <mat-error *ngIf="userForm.controls.username.errors?.required"></mat-error>
+                <mat-error *ngIf="userForm.controls.username.hasError('minlength')">Nom trop long</mat-error>
             </mat-form-field>
 
-            <mat-form-field class="w-100" appearance="outline" *ngIf="game != null">
+            <mat-form-field class="w-100" appearance="outline" *ngIf="user != null">
                 <mat-label>
                     Login
                 </mat-label>
-                <input style="color: #cecece" autocomplete="off" matInput formControlName="userName" readonly>
+                <input style="color: #cecece" autocomplete="off" matInput formControlName="username" readonly>
 
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="w-100">
-                <mat-label>
-                    Mot de passe
-                </mat-label>
-                <input autocomplete="off" matInput formControlName="password" type="text" required>
-                <mat-error *ngIf="userForm.controls.password.errors?.required">Mot de passe requis</mat-error>
-                <mat-error *ngIf="userForm.controls.password.hasError('minlength')">Mot de passe trop court : 6 charactères minimum</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="w-100">
@@ -41,19 +32,29 @@
                     Rôle
                 </mat-label>
                 <select matNativeControl required formControlName="role">
-                    <option value="ADMIN">ADMIN</option>
-                    <option value="USER">USER</option>
+                    <option value="ROLE_ADMIN">ADMIN</option>
+                    <option value="ROLE_USER">USER</option>
                 </select>
             </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>
+                    Changer le mot de passe
+                </mat-label>
+                <input autocomplete="off" matInput formControlName="password" type="text" required>
+                <mat-error *ngIf="userForm.controls.password.errors?.required">Mot de passe requis</mat-error>
+                <mat-error *ngIf="userForm.controls.password.hasError('minlength')">Mot de passe trop court : 6 charactères minimum</mat-error>
+            </mat-form-field>
+
 
         </div>
     </form>
 </div>
 <div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
-    <button *ngIf="game === null" mat-raised-button color="primary" [mat-dialog-close]="userForm.value"
+    <button *ngIf="user === null" mat-raised-button color="primary" [mat-dialog-close]="userForm.value"
             [disabled]="!userForm.valid" (click)="onSubmit(userFormRef)">Sauvegarder
     </button>
-    <button *ngIf="game != null && game.userName" mat-raised-button color="primary" [mat-dialog-close]="userForm.value"
+    <button *ngIf="user != null && user.username" mat-raised-button color="primary" [mat-dialog-close]="userForm.value"
             [disabled]="!userForm.valid" (click)="onSubmit(userFormRef)">Enregistrer
     </button>
 
