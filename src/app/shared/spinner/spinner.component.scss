@@ -1,0 +1,78 @@
+.icon-wrapper {
+  width: 150px;
+  height: 150px;
+  background: #273693;
+  padding: 1.5em;
+  margin: 0.5em auto;
+  border-radius: 20%;
+  overflow: hidden;
+}
+
+.icon-wrapper #air {
+  animation: pulse-air 2s infinite;
+}
+
+.icon-wrapper #ball {
+  animation: pulse-ball 2s infinite;
+}
+
+h1 {
+  text-align: center;
+}
+
+.cls-1,
+.cls-2,
+.cls-3 {
+  fill: none;
+  stroke: #fff;
+}
+
+.cls-1 {
+  stroke-miterlimit: 22.93;
+  stroke-width: 2px;
+}
+
+.cls-2,
+.cls-3 {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cls-2 {
+  stroke-width: 1.5px;
+}
+
+.cls-3 {
+  stroke-width: 2px;
+}
+
+
+@keyframes pulse-air {
+  0% {
+    stroke-dashoffset: 66;
+    stroke-dasharray: 33;
+    transition: all 2s ease;
+  }
+  50% {
+    stroke-dashoffset: 33;
+    stroke-dasharray: 33;
+    transition: all 2s ease;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+
+@keyframes pulse-ball {
+  0% {
+    transform: rotate(0);
+    transform-origin: center;
+  }
+  100% {
+    transform-origin: center;
+    transform: rotate(360deg);
+  }
+}
+
+

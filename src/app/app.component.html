@@ -6,9 +6,7 @@
             [class.mini]="settings.menuType == 'mini'" >
     <router-outlet></router-outlet>
     <div id="app-spinner" [class.hide]="!settings.loadingSpinner">
-        <img alt="spinner-logo" src="../assets/logo-blue.png" style="width: 100px;height: 120px">
-        <mat-progress-bar style="width: 400px" color="primary" mode="indeterminate"></mat-progress-bar>
-        <h6>Chargement...</h6>
+        <app-spinner [message]="'Chargement'"></app-spinner>
     </div>
 
 </div>

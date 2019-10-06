@@ -196,4 +196,45 @@
 }
 
 
+.icon-wrapper {
+    width: 100px;
+    height: 100px;
+    padding: 1.5em;
+    margin: 0.5em auto;
+    border-radius: 20%;
+    overflow: hidden;
+}
+
+h1 {
+    text-align: center;
+}
+
+.cls-1,
+.cls-2,
+.cls-3 {
+    fill: none;
+    stroke: #fff;
+}
+
+.cls-1 {
+    stroke-miterlimit: 22.93;
+    stroke-width: 2px;
+}
+
+.cls-2,
+.cls-3 {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.cls-2 {
+    stroke-width: 1.5px;
+}
+
+.cls-3 {
+    stroke-width: 2px;
+}
+
+
+
 

@@ -3,7 +3,6 @@ import {BetsService} from '../bet-cart/bets.service';
 import {FullBet} from '../bet-cart/fullbet.model';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
 import {Router} from '@angular/router';
-import {DialogOverviewExampleDialog} from '../ui/dialog/dialog.component';
 
 @Component({
     selector: 'app-bet-list',
