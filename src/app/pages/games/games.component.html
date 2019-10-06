@@ -1,26 +1,35 @@
-<div fxLayout="row" fxLayoutAlign="space-between center" class="flex-p">
-    <div fxLayout="row">
-        <mat-button-toggle-group #controls="matButtonToggleGroup" appearance="legacy">
-            <mat-button-toggle *ngIf="isUserAdmin()" value="add" (click)="openNewGameDialog(null)">
-                <fa-icon style="font-size: 150%" icon="calendar-plus"></fa-icon>
-            </mat-button-toggle>
-            <mat-button-toggle value="search">
-                <mat-icon>search</mat-icon>
-            </mat-button-toggle>
-        </mat-button-toggle-group>
-    </div>
-    <form class="user-search" [class.show]="controls.value == 'search'">
-        <mat-form-field appearance="outline" class="user-search-input">
-            <input autocomplete="off" matInput placeholder="Chercher par nom d'équipe" [(ngModel)]="searchText"
-                   name="search">
-        </mat-form-field>
-    </form>
-        <div fxLayout="row" fxLayoutAlign="space-between center" style="margin-left: 10px">
-                <mat-checkbox [(ngModel)]="showPassedGames">Afficher matchs terminés</mat-checkbox>
+<div fxLayout="column" fxLayoutAlign="space-between center" class="flex-p">
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div>
+            <mat-form-field class="w-100" appearance="outline" >
+                <mat-label>
+                    Recherche
+                </mat-label>
+                <input autocomplete="off" matInput placeholder="Chercher par nom d'équipe" [(ngModel)]="searchText"
+                       name="search" >
+            </mat-form-field>
         </div>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="space-between center" style="margin-bottom: 20px">
+        <button mat-raised-button color="default" *ngIf="isUserAdmin()" value="add" (click)="openNewGameDialog(null)">
+            <fa-icon style="font-size: 150%" icon="calendar-plus"></fa-icon> Ajouter un match
+        </button>
+
+        <button style="margin-left: 5px" mat-raised-button color="default" *ngIf="!showPassedGames" value="add" (click)="onShowPassedGames()">
+            <fa-icon style="font-size: 150%" icon="eye"></fa-icon> Afficher matchs terminés
+        </button>
+
+        <button style="margin-left: 5px" mat-raised-button color="default" *ngIf="showPassedGames" value="add" (click)="onShowPassedGames()">
+            <fa-icon style="font-size: 150%" icon="eye-slash"></fa-icon> Cacher les matchs terminés
+        </button>
+
+    </div>
+
 </div>
 
-<div class="row" *ngIf="filteredGames().length == 0" fxLayout="column" fxLayoutAlign="center center" style="text-align: center; padding-top: 100px">
+<div class="row" *ngIf="!filteredGames()" fxLayout="column" fxLayoutAlign="center center"
+     style="text-align: center; padding-top: 100px">
     <div>
         <div style="color: #283593;">
             <mat-icon style="font-size: 70px;margin-right: 35px;">mood_bad</mat-icon>
@@ -31,16 +40,20 @@
 
 <div fxLayout="row wrap">
     <div *ngFor="let game of filteredGames() | UserSearchPipe : searchText; let i=index"
-         fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50" class="flex-p">
-        <mat-card class="p-0 ">
-            <mat-card-header class="bg-primary"  fxLayout="row" fxLayoutAlign="space-between center">
+         fxFlex="100" fxFlex.gt-md="33" fxFlex.md="33" class="flex-p">
+        <mat-card class="p-0 " [style]="passedGameStyle(game)">
+            <mat-card-header class="bg-primary" fxLayout="row" fxLayoutAlign="space-between center">
                 <img style="max-width: 50px" mat-card-avatar src="assets/football.png"/>
-                <h6 class="user-name game-title">{{game.teamA}} - {{game.teamB}}</h6>
-                <button *ngIf="isUserAdmin()" style="color: white" mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger">
+                <div fxLayout="column" fxFlex="90">
+                    <p class="game-title-league">Ligue 1</p>
+                    <h6 class="user-name game-title">{{game.teamA}} - {{game.teamB}}</h6>
+                </div>
+                <button *ngIf="isUserAdmin()" style="color: white" mat-icon-button [matMenuTriggerFor]="menu"
+                        #menuTrigger="matMenuTrigger">
                     <mat-icon>settings</mat-icon>
                 </button>
             </mat-card-header>
-            <mat-menu  #menu="matMenu" xPosition="before" overlapTrigger="true">
+            <mat-menu #menu="matMenu" xPosition="before" overlapTrigger="true">
                 <span>
                     <button mat-menu-item (click)="openNewGameDialog(game)">
                         <mat-icon>mode_edit</mat-icon>
@@ -58,35 +71,36 @@
                     <mat-button-toggle [disabled]="isGameBlocked(game) || isGameEnded(game)"
                                        [checked]="game.checked && game.choice === 'A'"
                                        (change)="onAChange(game)">
-                        <span class="bg-primary bet-label">{{game.oddA | number: ".2-2"}}</span><mat-icon>arrow_right</mat-icon>
-                        <span style="font-weight: bold">{{game.teamA}}</span>
+                        <span class="bg-primary bet-label">1</span><span
+                            style="font-weight: bold; padding-left: 5px">{{ game.oddA | number: ".2-2"}}</span>
                     </mat-button-toggle>
 
                 </div>
 
+                <div *ngIf="game.oddN" style="padding: 5px; margin: 5px;" fxFlex="30" fxLayout="column"
+                     class="user-details transition-2" [class.blocked]="isGameBlocked(game)">
+
+                    <mat-button-toggle [disabled]="isGameBlocked(game) || isGameEnded(game)"
+                                       [checked]="game.checked && game.choice === 'N'"
+                                       (change)="onNChange(game)">
+                        <span class="bg-primary bet-label">N</span><span
+                            style="font-weight: bold; padding-left: 5px"> {{game.oddN | number: ".2-2"}}</span>
+
+                    </mat-button-toggle>
+                </div>
 
                 <div style="padding: 5px; margin: 5px;" fxFlex="30" fxLayout="column" class="user-details transition-2"
                      [class.blocked]="isGameBlocked(game)">
                     <mat-button-toggle [disabled]="isGameBlocked(game) || isGameEnded(game)"
                                        [checked]="game.checked && game.choice === 'B'"
                                        (change)="onBChange(game)"
-                                       >
-                        <span class="bg-primary bet-label">{{game.oddB | number: ".2-2"}}</span><mat-icon>arrow_right</mat-icon>
-                        <span style="font-weight: bold;">{{game.teamB}}</span>
+                    >
+                        <span class="bg-primary bet-label">2</span><span
+                            style="font-weight: bold; padding-left: 5px"> {{game.oddB | number: ".2-2"}}</span>
+
                     </mat-button-toggle>
                 </div>
 
-
-                <div *ngIf="game.oddN" style="padding: 5px; margin: 5px;font-size: 120%" fxFlex="30" fxLayout="column"
-                     class="user-details transition-2" [class.blocked]="isGameBlocked(game)">
-
-                    <mat-button-toggle [disabled]="isGameBlocked(game) || isGameEnded(game)"
-                                       [checked]="game.checked && game.choice === 'N'"
-                                       (change)="onNChange(game)">
-                        <span style="font-size: 80%" class="bg-primary bet-label"> {{game.oddN | number: ".2-2"}}</span><mat-icon>arrow_right</mat-icon>
-                        <span style="font-weight: bold;font-size: 90%">Match nul</span>
-                    </mat-button-toggle>
-                </div>
 
             </div>
 

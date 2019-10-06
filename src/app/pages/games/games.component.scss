@@ -1,3 +1,5 @@
+
+
 .checked-box{
         border: solid yellowgreen;
         background-color: white
@@ -5,7 +7,7 @@
 
 .bet-label{
     padding: 10px;
-    border-radius: 16px;
+    border-radius: 3px;
     font-weight: bold;
 }
 
@@ -20,11 +22,19 @@
 .game-title {
     display: flex;
     flex: auto;
-    margin-top: 10px;
+}
+.game-title-league {
+    font-size: 80%;
+    font-weight: 300;
+    display: flex;
+    flex: auto;
 }
 
+.app.indigo-light .mat-button-toggle-checked {
+    background-color: #83060680;
+    color: rgba(0, 0, 0, 0.54);
+}
 .user-name{
-    padding: 0 12px;
     font-weight: 400;
     font-size: 110%;
     color: white;

@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {Game} from '../games/game.model';
 import {FullBet} from './fullbet.model';
 import {Statistic} from '../games/statistic.model';
+import {MenuService} from "../../theme/components/menu/menu.service";
 
 @Injectable()
 export class BetsService {
     public url = environment.url;
-    constructor(public http:HttpClient) { }
+
+    constructor(public http:HttpClient) {
+    }
 
     games : Map<number,Game> = new Map<number, Game>();
 
@@ -29,6 +32,7 @@ export class BetsService {
         console.log("removeBetFromCart");
         this.games.get(game.id).checked = false;
         this.games.get(game.id).choice = null;
+
     }
 
     getStatistics(){

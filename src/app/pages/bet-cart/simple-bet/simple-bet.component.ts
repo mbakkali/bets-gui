@@ -1,9 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {BetsService} from '../bets.service';
 import {Game} from '../../games/game.model';
 import {MatSnackBar} from '@angular/material';
 import {MenuService} from '../../../theme/components/menu/menu.service';
-import {FullBet} from '../fullbet.model';
 import {Router} from '@angular/router';
 
 @Component({
@@ -12,7 +11,6 @@ import {Router} from '@angular/router';
   styleUrls: ['./simple-bet.component.scss']
 })
 export class SimpleBetComponent implements OnInit {
-  showSavedBet: boolean;
   loadingSavedBet: boolean;
   constructor(private betService : BetsService,
               public notifications: MatSnackBar,

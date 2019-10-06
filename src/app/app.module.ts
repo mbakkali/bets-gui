@@ -75,6 +75,7 @@ import {AuthenticationService} from './authentication.service';
 import {AuthenticationGuardService} from './authentication-guard.service';
 import {UserListComponent, UserListDialog} from './pages/user-list/user-list.component';
 import {UserService} from './pages/user-list/user.service';
+import {MenuService} from "./theme/components/menu/menu.service";
 
 registerLocaleData(localeFr);
 
@@ -133,7 +134,7 @@ registerLocaleData(localeFr);
         UserListDialog
     ],
     providers: [
-        AppSettings, BetsService,UserService, HttpClient, AuthenticationService, AuthenticationGuardService,
+        AppSettings, BetsService,MenuService ,UserService, HttpClient, AuthenticationService, AuthenticationGuardService,
         {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptorService, multi : true},
         {provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG},
         {provide: OverlayContainer, useClass: CustomOverlayContainer},

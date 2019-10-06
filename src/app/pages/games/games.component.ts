@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {MatDialog, MatSlideToggleChange, MatSnackBar} from '@angular/material';
+import {MatDialog, MatSnackBar} from '@angular/material';
 import {AppSettings} from '../../app.settings';
 import {Settings} from '../../app.settings.model';
 import {Game} from './game.model';
@@ -13,7 +13,8 @@ import {AuthenticationService} from '../../authentication.service';
     selector: 'app-users',
     templateUrl: './games.component.html',
     styleUrls: ['./games.component.scss'],
-    encapsulation: ViewEncapsulation.None})
+    encapsulation: ViewEncapsulation.None
+})
 export class GamesComponent implements OnInit {
     public games: Game[];
     public searchText: string = "";
@@ -24,13 +25,17 @@ export class GamesComponent implements OnInit {
     constructor(public appSettings: AppSettings,
                 public dialog: MatDialog,
                 public notifications: MatSnackBar,
-                private menuService : MenuService,
-                private betService : BetsService,
-                private authService : AuthenticationService) {
+                private menuService: MenuService,
+                private betService: BetsService,
+                private authService: AuthenticationService) {
         this.settings = this.appSettings.settings;
     }
 
-    isUserAdmin(){
+    onShowPassedGames(){
+        this.showPassedGames =!this.showPassedGames;
+    }
+
+    isUserAdmin() {
         return this.authService.isUserAdmin();
     }
 
@@ -39,28 +44,30 @@ export class GamesComponent implements OnInit {
         this.getGames();
     }
 
-    public filteredGames(): Game[]{
-        if(this.games){
+    public filteredGames(): Game[] {
+        if (this.games) {
             let filtered = [];
-            if(this.showPassedGames){
+            if (this.showPassedGames) {
                 filtered = this.games;
-            }else {
+            } else {
                 filtered = this.games.filter(game => !this.isGameEnded(game))
             }
             return filtered;
+        } else {
+            return null;
         }
     }
 
     public getGames(): void {
         this.games = null; //for show spinner each time
-        this.betService.loadGames().subscribe( games => {
+        this.betService.loadGames().subscribe(games => {
             games.forEach(value => {
-                if(!this.betService.games.has(value.id)){
-                    this.betService.games.set(value.id,value);
+                if (!this.betService.games.has(value.id)) {
+                    this.betService.games.set(value.id, value);
                 }
             });
             this.games = this.betService.getGames();
-        },error => alert("Serveur indisponible"));
+        }, error => alert("Serveur indisponible"));
     }
 
     public addGame(user: Game) {
@@ -76,8 +83,8 @@ export class GamesComponent implements OnInit {
             console.log('Modifed game', modifiedGame);
             this.notifications.open('Match ' + modifiedGame.teamA + '/' + modifiedGame.teamB + ' modifié', null, {duration: 2000,});
             this.betService.games.forEach(value => {
-                if(this.betService.games.has(modifiedGame.id)){
-                    this.betService.games.set(modifiedGame.id,modifiedGame);
+                if (this.betService.games.has(modifiedGame.id)) {
+                    this.betService.games.set(modifiedGame.id, modifiedGame);
                 }
             });
             this.games = this.betService.getGames();
@@ -90,7 +97,7 @@ export class GamesComponent implements OnInit {
             console.log('Modifed game', user);
             this.notifications.open('Match ' + user.teamA + '/' + user.teamB + ' supprimé', null, {duration: 2000,});
             this.betService.games.forEach(value => {
-                if(this.betService.games.has(value.id)){
+                if (this.betService.games.has(value.id)) {
                     this.betService.games.delete(user.id);
                 }
             });
@@ -125,61 +132,81 @@ export class GamesComponent implements OnInit {
     }
 
 
-    onAChange(currentGame:Game) {
+    onAChange(currentGame: Game) {
         //Deactivated A
-        if(currentGame.checked && currentGame.choice ==='A') {
+        if (currentGame.checked && currentGame.choice === 'A') {
             currentGame.choice = null;
             currentGame.checked = false;
             currentGame.amount = null;
             this.betService.removeBetFromCart(currentGame);
-            this.notifications.open("Pari sur " + currentGame.teamA + " ("+currentGame.oddA +") retiré",null,{duration: 2000,});
+            this.notifications.open("Pari sur " + currentGame.teamA + " (" + currentGame.oddA + ") retiré", null, {duration: 2000,});
             this.menuService.decreaseBadgeForMenuBets();
             //Activated A
-        }else {
+        } else if (currentGame.checked && currentGame.choice != 'A') {
             currentGame.choice = 'A';
             currentGame.checked = true;
             currentGame.amount = 10;
-            this.notifications.open("Pari sur " + currentGame.teamA + " ("+currentGame.oddA +") ajouté",null,{duration: 2000,});
+            this.notifications.open("Pari sur " + currentGame.teamA + " (" + currentGame.oddA + ") ajouté", null, {duration: 2000,});
+        } else {
+            currentGame.choice = 'A';
+            currentGame.checked = true;
+            currentGame.amount = 10;
+            this.notifications.open("Pari sur " + currentGame.teamA + " (" + currentGame.oddA + ") ajouté", null, {duration: 2000,});
             this.menuService.increaseBadgeForMenuBets();
         }
     }
 
-    onBChange(currentGame:Game) {
+    onBChange(currentGame: Game) {
         //Deactivated A
-        if(currentGame.checked && currentGame.choice ==='B') {
+        if (currentGame.checked && currentGame.choice === 'B') {
             currentGame.choice = null;
             currentGame.checked = false;
             currentGame.amount = null;
             this.betService.removeBetFromCart(currentGame);
-            this.notifications.open("Pari sur " + currentGame.teamB + " ("+currentGame.oddB +") retiré",null,{duration: 2000,});
+            this.notifications.open("Pari sur " + currentGame.teamB + " (" + currentGame.oddB + ") retiré", null, {duration: 2000,});
             this.menuService.decreaseBadgeForMenuBets();
             //Activated A
-        }else {
+        } else if (currentGame.checked && currentGame.choice != 'B') {
             currentGame.choice = 'B';
             currentGame.checked = true;
             currentGame.amount = 10;
-            this.notifications.open("Pari sur " + currentGame.teamB + " ("+currentGame.oddB +") ajouté",null,{duration: 2000,});
+            this.notifications.open("Pari sur " + currentGame.teamB + " (" + currentGame.oddB + ") ajouté", null, {duration: 2000,});
+        } else {
+            currentGame.choice = 'B';
+            currentGame.checked = true;
+            currentGame.amount = 10;
+            this.notifications.open("Pari sur " + currentGame.teamB + " (" + currentGame.oddB + ") ajouté", null, {duration: 2000,});
             this.menuService.increaseBadgeForMenuBets();
         }
     }
 
-    onNChange(currentGame:Game) {
+    onNChange(currentGame: Game) {
         //Deactivated A
-        if(currentGame.checked && currentGame.choice ==='N') {
+        if (currentGame.checked && currentGame.choice === 'N') {
             currentGame.choice = null;
             currentGame.checked = false;
             currentGame.amount = null;
             this.betService.removeBetFromCart(currentGame);
-            this.notifications.open("Pari sur match nul" + " ("+currentGame.oddN +") retiré",null,{duration: 2000,});
+            this.notifications.open("Pari sur match nul" + " (" + currentGame.oddN + ") retiré", null, {duration: 2000,});
             this.menuService.decreaseBadgeForMenuBets();
             //Activated A
-        }else {
+        } else if (currentGame.checked && currentGame.choice != 'C') {
             currentGame.choice = 'N';
             currentGame.checked = true;
             currentGame.amount = 10;
-            this.notifications.open("Pari sur match nul" + " ("+currentGame.oddN +") ajouté",null,{duration: 2000,});
+            this.notifications.open("Pari sur match nul" + " (" + currentGame.oddN + ") ajouté", null, {duration: 2000,});
+        } else {
+            currentGame.choice = 'N';
+            currentGame.checked = true;
+            currentGame.amount = 10;
+            this.notifications.open("Pari sur match nul" + " (" + currentGame.oddN + ") ajouté", null, {duration: 2000,});
             this.menuService.increaseBadgeForMenuBets();
         }
     }
 
+    passedGameStyle(game: Game) {
+        if (this.isGameEnded(game)){
+            return "{background-color : grey}"
+        }
+    }
 }
