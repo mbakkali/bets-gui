@@ -16,7 +16,7 @@ phases:
       - npm install
   build:
     commands:
-      - npm run build -aot
+      - npm run build:prod -aot
 artifacts:
   files:
     - '**/*'
