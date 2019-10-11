@@ -97,6 +97,9 @@ export class UserListComponent implements OnInit {
     element.showPasssword = !element.showPasssword;
   }
 
+    onSubmitBet() {
+        alert("Pas encore développé")
+    }
 }
 
 
