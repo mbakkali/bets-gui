@@ -63,7 +63,13 @@ export class BetsService {
                 });
             }
         });
-        return this.http.post(this.url +'bets', bets);
+        let saveBetsDto = {
+            bets : bets,
+            combinedBetAmount : null
+        }
+
+
+        return this.http.post(this.url +'bets', saveBetsDto);
 
     }
 
