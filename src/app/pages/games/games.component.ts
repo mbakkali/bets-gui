@@ -21,6 +21,7 @@ export class GamesComponent implements OnInit {
     public page: any;
     public settings: Settings;
     showPassedGames = false;
+    public isLoading: boolean = false;
 
     constructor(public appSettings: AppSettings,
                 public dialog: MatDialog,
@@ -60,7 +61,9 @@ export class GamesComponent implements OnInit {
 
     public getGames(): void {
         this.games = null; //for show spinner each time
+        this.isLoading = true;
         this.betService.loadGames().subscribe(games => {
+            this.isLoading = false;
             games.forEach(value => {
                 if (!this.betService.games.has(value.id)) {
                     this.betService.games.set(value.id, value);

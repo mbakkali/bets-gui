@@ -6,6 +6,7 @@ import {Game} from '../games/game.model';
 import {FullBet} from './fullbet.model';
 import {Statistic} from '../games/statistic.model';
 import {MenuService} from "../../theme/components/menu/menu.service";
+import {Bets} from "./bets.model";
 
 @Injectable()
 export class BetsService {
@@ -49,25 +50,39 @@ export class BetsService {
     }
 
     getBetByUser(userId : number){
-        return this.http.get<FullBet[]>(this.url +'bets/info/' + userId);
+        return this.http.get<Bets>(this.url +'bets/info/' + userId);
     }
 
-    addBets(games:Game[]){
+    addBets(games:Game[], combinedBetAmount){
         let bets = [];
-        games.forEach((game:Game) => {
-            if(game.amount > 0 && game.choice != null && game.id != null){
-                bets.push({
-                    amount : game.amount,
-                    betChoice : game.choice,
-                    gameId : game.id
-                });
-            }
-        });
-        let saveBetsDto = {
-            bets : bets,
-            combinedBetAmount : null
+        if(combinedBetAmount == null){
+            games.forEach((game:Game) => {
+                if(game.amount > 0 && game.choice != null && game.id != null){
+                    bets.push({
+                        amount : game.amount,
+                        combinedAmount : null,
+                        betChoice : game.choice,
+                        gameId : game.id
+                    });
+                }
+            });
+        }else {
+            games.forEach((game:Game) => {
+                if(game.choice != null && game.id != null){
+                    bets.push({
+                        amount : null,
+                        combinedAmount : combinedBetAmount,
+                        betChoice : game.choice,
+                        gameId : game.id
+                    });
+                }
+            });
         }
 
+        let saveBetsDto = {
+            bets : bets,
+            combinedBetAmount : combinedBetAmount
+        };
 
         return this.http.post(this.url +'bets', saveBetsDto);
 

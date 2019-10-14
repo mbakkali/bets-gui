@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FullBet} from '../fullbet.model';
 import {ActivatedRoute} from '@angular/router';
 import {BetsService} from '../bets.service';
+import {Bets} from "../bets.model";
 
 @Component({
     selector: 'app-bet',
@@ -18,6 +19,7 @@ export class BetComponent implements OnInit {
     }
 
     bets: FullBet[];
+    combinedAmount : number;
     loadingBets: boolean = false;
 
     ngOnInit() {
@@ -41,9 +43,10 @@ export class BetComponent implements OnInit {
         if(this.input > 0){
             this.betsService
                 .getBetByUser(this.input)
-                .subscribe((fullBets: FullBet[]) => {
+                .subscribe((bets: Bets) => {
                     this.userId = +this.input;
-                    this.bets = fullBets;
+                    this.bets = bets.bets;
+                    this.combinedAmount = bets.combinedBetAmount;
                     this.isSearching = false;
                     console.log('Retrieved bets for owner ', this.bets);
                 },error => {

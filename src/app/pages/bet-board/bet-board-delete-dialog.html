@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Supprimer le pari <span style="font-weight: bold; color: #283593">{{id}}</span></h1>
+<div mat-dialog-content>
+    <p style="color: darkred">Voulez vous supprimer ce pari sur {{bets.length}} matchs ?</p>
+
+   <app-bet-sub-list [bets]="bets"></app-bet-sub-list>
+</div>
+<div mat-dialog-actions>
+    <button mat-button color="warn" [mat-dialog-close]="true" tabindex="2">Ok</button>
+    <button mat-button [mat-dialog-close]="false" (click)="onNoClick()" tabindex="-1">Non</button>
+</div>

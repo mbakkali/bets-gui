@@ -28,7 +28,7 @@
 
 </div>
 
-<div class="row" *ngIf="!filteredGames()" fxLayout="column" fxLayoutAlign="center center"
+<div class="row" *ngIf="filteredGames().length == 0" fxLayout="column" fxLayoutAlign="center center"
      style="text-align: center; padding-top: 100px">
     <div>
         <div style="color: #283593;">
@@ -37,6 +37,11 @@
         <h5>Aucun match en cours</h5>
     </div>
 </div>
+
+<div *ngIf="isLoading" fxLayout="column" fxLayoutAlign="center center" style="text-align: center; margin-top: 30px">
+    <app-spinner [message]="'Chargement des matchs'"></app-spinner>
+</div>
+
 
 <div fxLayout="row wrap">
     <div *ngFor="let game of filteredGames() | UserSearchPipe : searchText; let i=index"
@@ -131,7 +136,4 @@
 </div>
 
 
-<div *ngIf="!games" fxLayout="column" fxLayoutAlign="center center" style="text-align: center; margin-top: 30px">
-    <app-spinner [message]="'Chargement des matchs'"></app-spinner>
-</div>
 

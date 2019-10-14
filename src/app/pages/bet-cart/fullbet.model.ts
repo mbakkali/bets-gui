@@ -8,6 +8,7 @@ export interface FullBet {
     gameId: number;
     gametime: string;
     amount: number;
+    combinedAmount: number;
     savedtime: string;
     betChoice: string;
     ownerId: number;

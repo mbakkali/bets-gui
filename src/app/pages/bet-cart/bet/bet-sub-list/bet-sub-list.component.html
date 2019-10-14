@@ -1,15 +1,24 @@
 <mat-list>
     <mat-list-item *ngFor="let bet of bets">
-    <p style="color: #283593; font-size: 110%" mat-line><mat-icon style="vertical-align: middle;">sports_soccer</mat-icon>
-        <span *ngIf="bet.gameId">{{bet.teamA}} - {{bet.teamB}} ({{bet.gametime | date}})</span>
-        <span *ngIf="!bet.gameId" style="font-style: italic; color: darkred">Match supprimé</span>
-    </p>
+        <p style="color: #283593; font-size: 110%" mat-line>
+            <mat-icon style="vertical-align: middle;">sports_soccer</mat-icon>
+            <span *ngIf="bet.gameId">{{bet.teamA}} - {{bet.teamB}} ({{bet.gametime | date}})</span>
+            <span *ngIf="!bet.gameId" style="font-style: italic; color: darkred">Match supprimé</span>
+        </p>
         <div mat-line *ngIf="bet.gameId">
-            <p mat-line *ngIf="bet.betChoice === 'A'">N° {{bet.id}} 1/N/2 : <span style="color: #646464;font-weight: bold">{{bet.teamA}} - ({{bet.oddA | number: ".2-2"}})</span></p>
-            <p mat-line *ngIf="bet.betChoice === 'B'">N° {{bet.id}} 1/N/2 : <span style="color: #646464;font-weight: bold">{{bet.teamB}} - ({{bet.oddB | number: ".2-2"}})</span></p>
-            <p mat-line *ngIf="bet.betChoice === 'N'">N° {{bet.id}} 1/N/2 : <span style="color: #646464;font-weight: bold">Match nul - ({{bet.oddA | number: ".2-2"}})</span></p>
+            <p mat-line *ngIf="bet.betChoice === 'A'">N° {{bet.id}} 1/N/2 : <span
+                    style="color: #646464;font-weight: bold">{{bet.teamA}} - ({{bet.oddA | number: ".2-2"}})</span></p>
+            <p mat-line *ngIf="bet.betChoice === 'B'">N° {{bet.id}} 1/N/2 : <span
+                    style="color: #646464;font-weight: bold">{{bet.teamB}} - ({{bet.oddB | number: ".2-2"}})</span></p>
+            <p mat-line *ngIf="bet.betChoice === 'N'">N° {{bet.id}} 1/N/2 : <span
+                    style="color: #646464;font-weight: bold">Match nul - ({{bet.oddA | number: ".2-2"}})</span></p>
         </div>
-        <p>Mise : <span style="color: #646464;font-weight: bold">{{bet.amount | number: ".2-2"}} €</span></p>
-    <mat-divider  style="margin-bottom: 4px; margin-top: 4px"></mat-divider>
-</mat-list-item>
+        <p *ngIf="bet.amount != null">Mise : <span
+                style="color: #646464;font-weight: bold">{{bet.amount | number: ".2-2"}} €</span></p>
+        <mat-divider style="margin-bottom: 4px; margin-top: 4px"></mat-divider>
+    </mat-list-item>
+
+    <mat-list-item *ngIf="combinedAmount != null" style="margin-top: 40px">
+        <p>Mise totale : <span style="color: #646464;font-weight: bold">{{combinedAmount | number: ".2-2"}} €</span></p>
+    </mat-list-item>
 </mat-list>

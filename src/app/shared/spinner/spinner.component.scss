@@ -1,7 +1,6 @@
 .icon-wrapper {
   width: 150px;
   height: 150px;
-  background: #273693;
   padding: 1.5em;
   margin: 0.5em auto;
   border-radius: 20%;
@@ -23,26 +22,30 @@ h1 {
 .cls-1,
 .cls-2,
 .cls-3 {
-  fill: none;
+  fill: #3F51B5;
   stroke: #fff;
 }
 
 .cls-1 {
+  fill: #3F51B5;
   stroke-miterlimit: 22.93;
   stroke-width: 2px;
 }
 
 .cls-2,
 .cls-3 {
+  fill: #3F51B5;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
 .cls-2 {
+  fill: #3F51B5;
   stroke-width: 1.5px;
 }
 
 .cls-3 {
+  stroke: #3F51B5;
   stroke-width: 2px;
 }
 

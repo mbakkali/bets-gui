@@ -76,6 +76,8 @@ import {AuthenticationGuardService} from './authentication-guard.service';
 import {UserListComponent, UserListDialog} from './pages/user-list/user-list.component';
 import {UserService} from './pages/user-list/user.service';
 import {MenuService} from "./theme/components/menu/menu.service";
+import { CombinedBetComponent } from './pages/bet-cart/combined-bet/combined-bet.component';
+import {BetBoardComponent, BetBoardDeleteDialog} from './pages/bet-board/bet-board.component';
 
 registerLocaleData(localeFr);
 
@@ -122,14 +124,18 @@ registerLocaleData(localeFr);
         BetDetailComponent,
         BetListComponent,
         BetListDeleteDialog,
+        BetBoardDeleteDialog,
         PreviewTicketDialog,
         UserListDialog,
         BetSubListComponent,
-        UserListComponent
+        UserListComponent,
+        CombinedBetComponent,
+        BetBoardComponent
     ],
     entryComponents: [
         VerticalMenuComponent,
         BetListDeleteDialog,
+        BetBoardDeleteDialog,
         PreviewTicketDialog,
         UserListDialog
     ],

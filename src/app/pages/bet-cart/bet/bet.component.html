@@ -1,8 +1,7 @@
 <div>
     <div class="row" *ngIf="!displayErrorSearch && !isSearching">
         <div class="offset-md-3 col-md-6 offset-md-3">
-            <app-bet-detail *ngIf="bets && bets.length > 0" [bets]="bets" [showIcon]="true"
-                            [userId]="userId"></app-bet-detail>
+            <app-bet-detail *ngIf="bets && bets.length > 0" [bets]="bets" [showIcon]="true" [userId]="userId" [combinedAmount]="combinedAmount"></app-bet-detail>
             <div *ngIf="!bets" fxLayout="column" fxLayoutAlign="center center"
                  style="text-align: center; display: block; margin-top: 30px">
                 <app-spinner [message]="'Chargement du pari '"></app-spinner>

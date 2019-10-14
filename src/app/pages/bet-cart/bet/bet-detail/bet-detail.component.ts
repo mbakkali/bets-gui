@@ -17,6 +17,7 @@ export class BetDetailComponent implements OnInit {
     @Input() showIcon: boolean;
     showDeletionMessage: boolean = false;
     isDeletingBet: boolean = false;
+    @Input() combinedAmount: number;
 
     constructor(private dialog: MatDialog, private betsService: BetsService, private notifications: MatSnackBar, private router: Router) {
     }
@@ -41,9 +42,11 @@ export class BetDetailComponent implements OnInit {
 
 
     openPrintModal() {
-        let dialogRef = this.dialog.open(PreviewTicketDialog, {
-            data: {bets: this.bets, id: this.userId}
-        });
+        window.print();
+
+        /* let dialogRef = this.dialog.open(PreviewTicketDialog, {
+             data: {bets: this.bets, id: this.userId}
+         });*/
     }
 }
 

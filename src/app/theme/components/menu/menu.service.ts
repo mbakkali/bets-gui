@@ -156,7 +156,7 @@ export class MenuService {
         new Menu (1, 'Statistiques', '/stats', null, 'dashboard', null, false, 0,0,true),
         new Menu (2, 'Matchs', '/games', null, 'event', null, false, 0,0, false),
         new Menu (2, 'Panier', '/cart', null, 'save', null, false, 0,0,false),
-        new Menu (2, 'Paris', '/bet', null, 'format_list_bulleted', null, false, 0,0, true),
+        new Menu (2, 'Paris', '/bet-board', null, 'format_list_bulleted', null, false, 0,0, true),
         new Menu (2, 'Equipe', '/users', null, 'people_alt', null, false, 0,0, true)
     ];
 
@@ -164,7 +164,7 @@ export class MenuService {
         new Menu (1, 'Statistiques', '/stats', null, 'dashboard', null, false, 0,0, true),
         new Menu (2, 'Matchs', '/games', null, 'event', null, false, 0,0, false),
         new Menu (2, 'Panier', '/cart', null, 'save', null, false, 0,0, false),
-        new Menu (2, 'Paris', '/bet', null, 'format_list_bulleted', null, false, 0,0, true),
+        new Menu (2, 'Paris', '/bet-board', null, 'format_list_bulleted', null, false, 0,0, true),
         new Menu (2, 'Equipe', '/users', null, 'people_alt', null, false, 0,0, true)
     ];
 }

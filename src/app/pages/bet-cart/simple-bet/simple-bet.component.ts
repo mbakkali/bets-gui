@@ -65,7 +65,7 @@ export class SimpleBetComponent implements OnInit {
 
   onSubmitBet() {
     this.loadingSavedBet = true;
-    this.betService.addBets(this.betService.getBets()).subscribe((userId:number) => {
+    this.betService.addBets(this.betService.getBets(),null).subscribe((userId:number) => {
       console.log('Bet saved for user '+  userId);
       this.notifications.open('Pari sauvegardé avec success', null, {duration: 2000,});
       this.loadingSavedBet = true;

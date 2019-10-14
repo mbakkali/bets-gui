@@ -9,6 +9,7 @@ import {BetComponent} from './pages/bet-cart/bet/bet.component';
 import {BetListComponent} from './pages/bet-list/bet-list.component';
 import {AuthenticationGuardService} from './authentication-guard.service';
 import {UserListComponent} from './pages/user-list/user-list.component';
+import {BetBoardComponent} from "./pages/bet-board/bet-board.component";
 
 export const routes: Routes = [
     { 
@@ -19,6 +20,7 @@ export const routes: Routes = [
             { path: 'games', loadChildren: () => import('./pages/games/games.module').then(m => m.GamesModule), data: { breadcrumb: 'Users' } ,canActivate: [AuthenticationGuardService]},
             { path: 'cart', component: BetCartComponent, data: { breadcrumb: 'Cart' } ,canActivate: [AuthenticationGuardService]},
             { path: 'bet', component: BetListComponent, data: { breadcrumb: 'Bets' } ,canActivate: [AuthenticationGuardService]},
+            { path: 'bet-board', component: BetBoardComponent, data: { breadcrumb: 'Bets' } ,canActivate: [AuthenticationGuardService]},
             { path: 'users', component: UserListComponent, data: { breadcrumb: 'Bets' } ,canActivate: [AuthenticationGuardService]},
             { path: 'bet/:id', component: BetComponent, data: { breadcrumb: 'Search' } ,canActivate: [AuthenticationGuardService]},
             { path: '**', redirectTo: '',canActivate: [AuthenticationGuardService] }

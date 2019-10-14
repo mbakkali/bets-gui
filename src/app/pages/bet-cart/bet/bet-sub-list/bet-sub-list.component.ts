@@ -9,6 +9,7 @@ import {FullBet} from '../../fullbet.model';
 export class BetSubListComponent implements OnInit {
 
   @Input() bets :FullBet[]
+  @Input() combinedAmount: number;
   constructor() { }
 
   ngOnInit() {
