@@ -1,0 +1,36 @@
+
+<mat-list *ngIf="!loadingSavedBet">
+    <mat-list-item *ngFor="let bet of getBets()" style="margin-bottom: 2px">
+        <mat-icon mat-list-icon style="color: darkred; cursor: pointer" matRipple (click)="delete(bet)">delete</mat-icon>
+        <h4 mat-line style="color: #283593; font-weight: bold">{{bet.teamA}} - {{bet.teamB}} ({{bet.datetime | date}}) </h4>
+        <br mat-line>
+        <p mat-line *ngIf="bet.choice === 'A'">N° {{bet.id}} 1/N/2 : <span style="color: #646464;font-weight: bold">{{bet.teamA}} - ({{bet.oddA | number: ".2-2"}})</span></p>
+        <p mat-line *ngIf="bet.choice === 'B'">N° {{bet.id}} 1/N/2 : <span style="color: #646464;font-weight: bold">{{bet.teamB}} - ({{bet.oddB | number: ".2-2"}})</span></p>
+        <p mat-line *ngIf="bet.choice === 'N'">N° {{bet.id}} 1/N/2 : <span style="color: #646464;font-weight: bold">Match nul - ({{bet.oddA | number: ".2-2"}})</span></p>
+        <mat-divider></mat-divider>
+
+    </mat-list-item>
+
+    <mat-list-item style="margin-top: 40px; margin-bottom: 2px">
+        <div  mat-line>
+            <mat-form-field appearance="outline">
+                <mat-label>Mise</mat-label>
+                <mat-placeholder>Mise</mat-placeholder>
+                <input [(ngModel)]="combinedAmount" autocomplete="off" type="number" matInput required>
+                <p matSuffix>€</p>
+            </mat-form-field>
+        </div>
+    </mat-list-item>
+
+    <div *ngIf="getBets().length >0" style="margin-top: 20px">
+        <div style="justify-content: center">
+            <h6>{{getBets().length}} paris en cours (<a style="color: darkred; cursor: pointer" (click)="deleteAllBets()">supprimer le panier</a>)</h6>
+        </div>
+
+        <div style="text-align: center"><button mat-raised-button color="primary" (click)="onSubmitBet()">Valider</button></div>
+    </div>
+</mat-list>
+
+<div *ngIf="loadingSavedBet"  fxLayout="column" fxLayoutAlign="center center" style="text-align: center; margin-top: 30px">
+    <app-spinner [message]="'Sauvegarde du pari en cours ...'"></app-spinner>
+</div>

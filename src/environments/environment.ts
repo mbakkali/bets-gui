@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  //url : "http://localhost:8080/bets-api/"
-  url: "https://api.parishaitiens.com:8080/bets-api/"
+  url : "http://localhost:8080/bets-api/"
+  //url: "https://api.parishaitiens.com:8080/bets-api/"
 };
 
 /*

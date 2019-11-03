@@ -22,7 +22,7 @@ export const routes: Routes = [
             { path: 'bet', component: BetListComponent, data: { breadcrumb: 'Bets' } ,canActivate: [AuthenticationGuardService]},
             { path: 'bet-board', component: BetBoardComponent, data: { breadcrumb: 'Bets' } ,canActivate: [AuthenticationGuardService]},
             { path: 'users', component: UserListComponent, data: { breadcrumb: 'Bets' } ,canActivate: [AuthenticationGuardService]},
-            { path: 'bet/:id', component: BetComponent, data: { breadcrumb: 'Search' } ,canActivate: [AuthenticationGuardService]},
+            { path: 'bet/:id/:display', component: BetComponent, data: { breadcrumb: 'Search' } ,canActivate: [AuthenticationGuardService]},
             { path: '**', redirectTo: '',canActivate: [AuthenticationGuardService] }
         ]
     },

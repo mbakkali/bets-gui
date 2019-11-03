@@ -70,7 +70,7 @@ export class SimpleBetComponent implements OnInit {
       this.notifications.open('Pari sauvegardé avec success', null, {duration: 2000,});
       this.loadingSavedBet = true;
       this.deleteAllBets();
-      this.router.navigate(["/bet", userId]);
+      this.router.navigate(['bet/' + userId + '/' + true]);
     })
   }
 }

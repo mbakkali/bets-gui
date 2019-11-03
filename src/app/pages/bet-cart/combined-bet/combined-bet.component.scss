@@ -1,0 +1,9 @@
+.bi-form {
+  display: grid;
+  grid-template-columns: 60% 30%;
+  grid-template-rows: 2fr;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+  justify-items: stretch;
+  align-items: stretch;
+}

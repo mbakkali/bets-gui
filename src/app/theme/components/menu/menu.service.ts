@@ -28,19 +28,10 @@ export class MenuService {
         let isUserAdmin: boolean = this.authService.isUserAdmin();
         //Remove admin tabs for non admins
         if (!isUserAdmin) {
-            for (let i = 0; i < this.horizontalMenuItems.length; i++) {
-                if (this.horizontalMenuItems[i].onlyAdmin == true) {
-                    this.horizontalMenuItems.splice(i, 1);
-                }
-            }
-            for (let j = 0; j < this.verticalMenuItems.length; j++) {
-                if (this.verticalMenuItems[j].onlyAdmin == true) {
-                    this.verticalMenuItems.splice(j, 1);
-                }
-            }
+            this.horizontalMenuItems = this.horizontalMenuItems.filter(value => value.onlyAdmin !=true);
+            this.verticalMenuItems = this.verticalMenuItems.filter(value => value.onlyAdmin !=true);
+
         }
-        console.log("Horizontal menu items : ")
-        console.log(JSON.stringify(this.horizontalMenuItems))
     }
 
     public getVerticalMenuItems(): Array<Menu> {
@@ -153,19 +144,19 @@ export class MenuService {
 
 
     VERTICAL_MENU = [
-        new Menu (1, 'Statistiques', '/stats', null, 'dashboard', null, false, 0,0,true),
-        new Menu (2, 'Matchs', '/games', null, 'event', null, false, 0,0, false),
+        new Menu (0, 'Statistiques', '/stats', null, 'dashboard', null, false, 0,0,true),
+        new Menu (1, 'Matchs', '/games', null, 'event', null, false, 0,0, false),
         new Menu (2, 'Panier', '/cart', null, 'save', null, false, 0,0,false),
-        new Menu (2, 'Paris', '/bet-board', null, 'format_list_bulleted', null, false, 0,0, true),
-        new Menu (2, 'Equipe', '/users', null, 'people_alt', null, false, 0,0, true)
+        new Menu (3, 'Paris', '/bet-board', null, 'format_list_bulleted', null, false, 0,0, true),
+        new Menu (4, 'Equipe', '/users', null, 'people_alt', null, false, 0,0, true)
     ];
 
     HORIZONTAL_MENU = [
-        new Menu (1, 'Statistiques', '/stats', null, 'dashboard', null, false, 0,0, true),
-        new Menu (2, 'Matchs', '/games', null, 'event', null, false, 0,0, false),
+        new Menu (0, 'Statistiques', '/stats', null, 'dashboard', null, false, 0,0, true),
+        new Menu (1, 'Matchs', '/games', null, 'event', null, false, 0,0, false),
         new Menu (2, 'Panier', '/cart', null, 'save', null, false, 0,0, false),
-        new Menu (2, 'Paris', '/bet-board', null, 'format_list_bulleted', null, false, 0,0, true),
-        new Menu (2, 'Equipe', '/users', null, 'people_alt', null, false, 0,0, true)
+        new Menu (3, 'Paris', '/bet-board', null, 'format_list_bulleted', null, false, 0,0, true),
+        new Menu (4, 'Equipe', '/users', null, 'people_alt', null, false, 0,0, true)
     ];
 }
 

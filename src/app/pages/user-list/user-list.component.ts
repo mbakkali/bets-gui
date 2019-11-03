@@ -144,7 +144,6 @@ export class UserListDialog {
                 roles: [this.userForm.get('role').value],
             };
 
-
             if (data.username) {
                 data.username = this.userForm.get('username').value;
             }

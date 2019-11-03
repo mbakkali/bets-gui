@@ -21,11 +21,15 @@ export class BetComponent implements OnInit {
     bets: FullBet[];
     combinedAmount : number;
     loadingBets: boolean = false;
+    showIcon= false;
 
     ngOnInit() {
         this.route.params.subscribe((params: any) => {
             if (params.id && +params.id > 0) {
-                this.input = +params.id
+                this.input = +params.id;
+                if(params.display && params.display){
+                    this.showIcon = params.display === "true"
+                }
                this.searchBetOwner()
             } else if (params.id && +params.id == 0) {
                 this.bets = null;
